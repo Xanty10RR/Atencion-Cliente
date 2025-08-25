@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SG calificación atención al cliente</title>
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="icon" type="image/png" href="img/icon-web.webp">
+</head>
+
+<body>
+    <section id="registro-cliente">
+        <header>
+            <div id="logo">
+                <img src="img/header.png" alt="Logoheader" height="245" width="375px">
+            </div>
+        </header>
+        <form id="formulario" method="POST" action="Registroclientes.php">
+            <section id="Pregunta1">
+                <h1> Por favor ingresa tus datos</h1>
+            </section>
+            <div class="clientes" id="clientes">
+                <label for="nombreCliente">Ingrese su nombre:</label>
+                <input type="text" name="nombrecliente" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" placeholder="(OPCIONAL)">
+
+                <label for="numeroCliente">Ingrese su número de celular:</label>
+                <input type="tel" placeholder="(OPCIONAL)" name="celularcliente">
+            </div>
+            <br>
+
+            <h3>¡Sigue la siguiente instrucción!</h3>
+            <p class="texto">Primero debes colocar el código del vendedor en el espacio, este lo puedes encontrar en el
+                recibo tal
+                como aparece en la guía.</p>
+            <img src="img/gif.gif" class="gif" alt="Se indica donde se encuentra la cedula de la cajera en la factura"
+                height="300" width="300">
+            <br><br>
+
+            <label for="codigovendedor">Ingrese el código del vendedor por favor:</label>
+            <input type="number" placeholder="CODIGO DEL VENDEDOR" name="colocarcodigo" id="colocarcodigo"
+                pattern="^[0-9]" required>
+            <br><br><br>
+            <hr><br>
+
+            <!-- Esta sección está inicialmente oculta -->
+            <h3>¡Tu opinión es muy importante para nosotros!</h3>
+            <p class="texto">Por favor, califica la atención y servicio prestado por el vendedor, para nosotros es muy
+                importante
+                tu
+                opinión.</p>
+
+            <div class="contenedor">
+                <div class="clasificacion" data-pregunta="1">
+                    <label for="atencionCliente">¿Cómo calificas la atención y servicio prestado en nuestros puntos
+                        de venta?</label>
+                    <input type="hidden" name="atencionCliente" id="atencionCliente" value="0">
+                    <div class="estrellas">
+                        <i class="bi bi-star-fill star" data-valor="1" onclick="setValor('atencionCliente', 1)"
+                            alt=1></i>
+                        <i class="bi bi-star-fill star" data-valor="2" onclick="setValor('atencionCliente', 2)"
+                            alt=2></i>
+                        <i class="bi bi-star-fill star" data-valor="3" onclick="setValor('atencionCliente', 3)"
+                            alt=3></i>
+                        <i class="bi bi-star-fill star" data-valor="4" onclick="setValor('atencionCliente', 4)"
+                            alt=4></i>
+                        <i class="bi bi-star-fill star" data-valor="5" onclick="setValor('atencionCliente', 5)"
+                            alt=5></i>
+                    </div>
+                </div>
+
+                <div class="clasificacion" data-pregunta="2">
+                    <label for="interaccionesRapidas">¿Te atendieron de forma ágil?</label>
+                    <input type="hidden" name="interaccionesRapidas" id="interaccionesRapidas" value="1">
+                    <div class="estrellas">
+                        <i class="bi bi-star-fill star" data-valor="1" onclick="setValor('interaccionesRapidas', 1)"
+                            alt=1></i>
+                        <i class="bi bi-star-fill star" data-valor="2" onclick="setValor('interaccionesRapidas', 2)"
+                            alt=2></i>
+                        <i class="bi bi-star-fill star" data-valor="3" onclick="setValor('interaccionesRapidas', 3)"
+                            alt=3></i>
+                        <i class="bi bi-star-fill star" data-valor="4" onclick="setValor('interaccionesRapidas', 4)"
+                            alt=4></i>
+                        <i class="bi bi-star-fill star" data-valor="5" onclick="setValor('interaccionesRapidas', 5)"
+                            alt=5></i>
+                    </div>
+                </div>
+
+                <div class="clasificacion" data-pregunta="3">
+                    <label for="buenTrato">¿En cuánto califica la amabilidad y actitud del personal que lo
+                        atendió?</label>
+                    <input type="hidden" name="buenTrato" id="buenTrato" value="2">
+                    <div class="estrellas">
+                        <i class="bi bi-star-fill star" data-valor="1" onclick="setValor('buenTrato', 1)" alt=1></i>
+                        <i class="bi bi-star-fill star" data-valor="2" onclick="setValor('buenTrato', 2)" alt=2></i>
+                        <i class="bi bi-star-fill star" data-valor="3" onclick="setValor('buenTrato', 3)" alt=3></i>
+                        <i class="bi bi-star-fill star" data-valor="4" onclick="setValor('buenTrato', 4)" alt=4></i>
+                        <i class="bi bi-star-fill star" data-valor="5" onclick="setValor('buenTrato', 5)" alt=5></i>
+                    </div>
+                </div>
+
+                <div class="clasificacion" data-pregunta="4">
+                    <label for="superacionExpectativas">¿Nuestros productos y servicios cumplieron con tus
+                        expectativas?</label>
+                    <input type="hidden" name="superacionExpectativas" id="superacionExpectativas" value="3">
+                    <div class="estrellas">
+                        <i class="bi bi-star-fill star" data-valor="1" onclick="setValor('superacionExpectativas', 1)"
+                            alt=1></i>
+                        <i class="bi bi-star-fill star" data-valor="2" onclick="setValor('superacionExpectativas', 2)"
+                            alt=2></i>
+                        <i class="bi bi-star-fill star" data-valor="3" onclick="setValor('superacionExpectativas', 3)"
+                            alt=3></i>
+                        <i class="bi bi-star-fill star" data-valor="4" onclick="setValor('superacionExpectativas', 4)"
+                            alt=4></i>
+                        <i class="bi bi-star-fill star" data-valor="5" onclick="setValor('superacionExpectativas', 5)"
+                            alt=5></i>
+                    </div>
+                </div>
+                <div class="comentariosSugerencias" data-pregunta="5">
+                    <h3 for="comentariosSugerencias" id="ajusteLabel">¡Comentarios y sugerencias!</h3>
+                    <input type="hidden" name="comentariosSugerencias" id="comentariosSugerencias">
+                    <textarea id="comentariosSugerencias" name="comentariosSugerencias" rows="4" cols="50"
+                        maxlength="249"
+                        placeholder="OPCIONAL: Déjanos alguna sugerencia, felicitación o comentario que pueda servir para nuestra mejora continua..."></textarea>
+                    </input>
+                </div>
+            </div><br>
+            <!-- Autorización de datos -->
+            <div class="autorizacion-container">
+                <img src="img/autorizacion.png" alt="Autorización de datos" class="img-autorizacion">
+                <input type="checkbox" id="autorizaDatos" onclick="ocultarError()" class="check-autorizacion">
+            </div>
+            <p id="errorMensaje" class="error">Debes aceptar la política de privacidad para continuar.</p>
+
+
+            <p><a style="color: rgb(64, 2, 235); text-decoration: underline; cursor: pointer; margin-top: 0px;"
+                    onclick="mostrarAviso()">Haz
+                    click aqui para ver las políticas de privacidad</a></p>
+            <button class="btnEnviar" type="submit" onclick="validarAutorizacion()" data-dismiss="alert">Enviar</button>
+        </form>
+        <br><br>
+        <section class="pqrsr-seccion">
+            <img src="img/pqrtext.png" alt="PQRSR - Reportar incumplimiento" class="pqrsr-fondo">
+            <a href="https://ssnarino.co/formulario-pqrsf/">
+                <img src="img/pqrbot.png" alt="Realizar una PQRSF" class="pqrsr-boton">
+            </a>
+        </section>
+        <div id="miModal" class="modal" onclick="cerrarAviso(event)">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="modal-title">Aviso de Privacidad</div>
+                <p>
+                    Declaro que he sido informado que Superservicios de Nariño S.A es el responsable del tratamiento de
+                    los datos personales obtenidos a través del diligenciamiento del presente formulario y que he leído
+                    las Políticas de Tratamiento de Datos Personales disponibles en el sitio web:
+                    https://ssnarino.co/wp-content/uploads/2025/01/PO-DR-01-01-Politica-de-Tratamiento-de-Datos-Personales_v10.docx.pdf.
+                    Por ello, consiento y autorizo de manera previa, expresa e inequívoca que mis datos personales sean
+                    tratados con sujeción a lo establecido en su Política de Protección de Datos Personales, atendiendo
+                    a las finalidades en ellas señaladas, entre las que se encuentran:
+                </p>
+                <p>
+                    Realizar encuestas de satisfacción al usuario, calidad del servicio y fortalecer los canales de
+                    atención al cliente.
+                </p>
+                <p>
+                    Suministrar comunicaciones comerciales, publicitarias y promocionales sobre los productos,
+                    servicios, eventos, promociones, etc.; por cualquiera de los medios de comunicación proporcionados
+                    por el titular u otros medios electrónicos y digitales dispuestos por la empresa, relacionadas con
+                    los productos y servicios ofrecidos.
+                </p>
+                <p>
+                    Como Titular de información tengo derecho a conocer, actualizar y rectificar mis datos personales,
+                    solicitar prueba de la autorización otorgada para su tratamiento, ser informado sobre el uso que se
+                    ha dado a los mismos, presentar quejas ante la SIC por infracción a la ley, revocar la autorización
+                    y/o solicitar la supresión de mis datos en los casos en que sea procedente y acceder en forma
+                    gratuita a los mismos mediante solicitud por escrito al correo electrónico:
+                    juridico.ssn@supergirosnarino.co
+                </p>
+                <button class="button1" type="button" onclick="cerrarAviso()">OK</button>
+            </div>
+        </div>
+        <br>
+    </section>
+
+    <footer>
+        <p style="color: rgb(255, 255, 255);">&copy; 2025 SuperGIROS - Todos los derechos reservados</p>
+    </footer>
+
+    <!--<script src="preloader.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
