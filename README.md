@@ -65,8 +65,6 @@ This admin panel allows you to consult, filter, and analyze the results of Super
 
 ## License
 
----
-
 Internal use for SuperGIROS.
 
 
