@@ -1,0 +1,18 @@
+# Environment variables
+.env
+.env.*
+
+# Composer / PHP dependencies
+vendor/
+
+# Generated/temporary PHP files
+[0-9]*.php
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
