@@ -3,7 +3,7 @@ session_start();
 
 // Conectar a la base de datos
 try {
-    include('47829374983274.php');
+    require_once __DIR__ . '/config.php';
     // Conexión a la base de datos usando los valores del archivo config.php
     $port = $_ENV['DB_PORT'] ?? '3306';
     $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . $port . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
@@ -39,19 +39,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Redirigir a la página correspondiente según el rol del usuario
             if ($_SESSION['rol'] == '1') {
-                header('Location: 22131325843513551.php'); // Redirigir a la página del superadmin
+                header('Location: PanelSuperadministrador.php'); // Redirigir a la página del superadmin
             } 
             if ($_SESSION['rol'] == '2') {
-                header('Location: 0192838712364783.php'); // Redirigir a la página del admin
+                header('Location: PanelAdministrador.php'); // Redirigir a la página del admin
             } 
             if ($_SESSION['rol'] == '3') {
-                header('Location: 78978978978454561.php'); // Redirigir a la página de gestion humana
+                header('Location: PanelGestionHumana.php'); // Redirigir a la página de gestion humana
             }
             if ($_SESSION['rol'] == '4') {
-                header('Location: 65410358135135413.php'); // Redirigir a la página del usuario visitante
+                header('Location: PanelVisitante.php'); // Redirigir a la página del usuario visitante
             }
             //if ($_SESSION['rol'] == '5') {
-            //    header('Location: 132155434523463278.php'); // Redirigir a la página de auditoria
+            //    header('Location: PanelAuditoria.php'); // Redirigir a la página de auditoria
             //}
             exit;
         } else {
