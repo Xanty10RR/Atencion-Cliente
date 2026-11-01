@@ -5,7 +5,8 @@ session_start();
 try {
     include('47829374983274.php');
     // Conexión a la base de datos usando los valores del archivo config.php
-    $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
+    $port = $_ENV['DB_PORT'] ?? '3306';
+    $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . $port . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
     // Establecer el modo de error
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
