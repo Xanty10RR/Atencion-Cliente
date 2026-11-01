@@ -1,7 +1,7 @@
 <?php
 try {
     // Conexión a la base de datos
-    include('47829374983274.php');
+    require_once __DIR__ . '/config.php';
     // Conexión a la base de datos usando los valores del archivo config.php
     $pdo = new PDO("pgsql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
     // Configurar el manejo de errores
