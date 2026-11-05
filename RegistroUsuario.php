@@ -10,7 +10,8 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
 $_SESSION['last_activity'] = time(); // Actualiza el tiempo de última actividad
 
 require_once __DIR__ . '/config.php';
-function registrarAuditoria($pdo, $accion, $usuarioAfectadoId, $datosAntes, $datosDespues) {
+function registrarAuditoria($pdo, $accion, $usuarioAfectadoId, $datosAntes, $datosDespues)
+{
     $realizadoPor = $_SESSION['username'] ?? 'desconocido';
 
     $stmt = $pdo->prepare("
@@ -33,7 +34,7 @@ function registrarAuditoria($pdo, $accion, $usuarioAfectadoId, $datosAntes, $dat
 
 // Conectar a la base de datos
 try {
-    $pdo = new PDO("pgsql:host=" . DB_HOST . ";dbname=" . DB_NAME , DB_USER, DB_PASS);
+    $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Error de conexión: " . $e->getMessage());
@@ -55,41 +56,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $stmt = $pdo->prepare("INSERT INTO Usuarios (nombre_completo, documento, username, password, rol) 
         VALUES (:nombre_completo, :documento, :username, :password, :rol)");
-$stmt->execute([
-'nombre_completo' => $nombre_completo,
-'documento' => $documento,
-'username' => $username,
-'password' => $hashedPassword,
-'rol' => $rol,
-]);
 
-$usuarioId = $pdo->lastInsertId(); // ID del usuario creado
+        $stmt->execute([
+            ':nombre_completo' => $nombre_completo,
+            ':documento' => $documento,
+            ':username' => $username,
+            ':password' => $hashedPassword,
+            ':rol' => $rol,
+        ]);
 
-// Guardar en la tabla de auditoría
-$datosNuevos = [
-'nombre_completo' => $nombre_completo,
-'documento' => $documento,
-'username' => $username,
-'rol' => $rol
-];
+        $usuarioId = $pdo->lastInsertId(); // ID del usuario creado
 
-registrarAuditoria($pdo, 'crear', $usuarioId, null, $datosNuevos);
-echo "Usuario registrado correctamente. <a href='login.php'>Iniciar sesión</a>";
+        // Guardar en la tabla de auditoría
+        $datosNuevos = [
+            'nombre_completo' => $nombre_completo,
+            'documento' => $documento,
+            'username' => $username,
+            'rol' => $rol
+        ];
+
+        registrarAuditoria($pdo, 'crear', $usuarioId, null, $datosNuevos);
+
+        // ✅ Redirigir enviando una variable indicando ÉXITO
+        header("Location: " . $_SERVER['PHP_SELF'] . "?status=success");
+        exit;
     } catch (PDOException $e) {
-        echo "Error al registrar el usuario: " . $e->getMessage();
+        // ✅ Redirigir enviando el error codificado en la URL para leerlo abajo
+        header("Location: " . $_SERVER['PHP_SELF'] . "?status=error&msg=" . urlencode($e->getMessage()));
+        exit;
     }
-header("Location: " . $_SERVER['PHP_SELF']);
-exit;
 }
-
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
+    <title>Registro de Usuario Error al</title>
     <link rel="icon" type="image/png" href="img/icon.jpg">
     <style>
         body {
@@ -180,107 +185,147 @@ exit;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
+
 <body>
 
-<div class="form-container">
-    <h2>Registro de Usuario</h2>
-    <form id="registroForm" action="RegistroUsuario.php" method="post" onsubmit="return validarFormulario()">
-        <input type="text" name="nombre_completo" placeholder="Nombre Completo" required>
+    <div class="form-container">
+        <h2>Registro de Usuario</h2>
 
-        <input type="text" name="documento" id="documento" placeholder="Número de Documento" required oninput="validarDocumento()">
-        <small id="mensajeDocumento" style="color: red; display: none;">Solo se permiten números</small>
+        <?php
+        // Control de alertas mediante variables GET
+        if (isset($_GET['status'])) {
+            if ($_GET['status'] == 'success') {
+                echo "<div class='alert alert-success'>Usuario registrado correctamente. <a href='GestionUsuarios.php'>Ver usuarios</a></div>";
+            } elseif ($_GET['status'] == 'error') {
+                $errorMsg = htmlspecialchars($_GET['msg'] ?? 'Error desconocido');
+                echo "<div class='alert alert-danger'>Error al registrar el usuario: " . $errorMsg . "</div>";
+            }
+        }
+        ?>
 
-        <input type="text" name="username" placeholder="Usuario" required>
+        <form id="registroForm" action="RegistroUsuario.php" method="post" onsubmit="return validarFormulario()">
+            <input type="text" name="nombre_completo" placeholder="Nombre Completo" required>
 
-        <input type="password" name="password" id="password" placeholder="Contraseña" required 
-                oninput="validarPassword()" 
-                onfocus="mostrarRequisitos()" 
+            <input type="text" name="documento" id="documento" placeholder="Número de Documento" required oninput="validarDocumento()">
+            <small id="mensajeDocumento" style="color: red; display: none;">Solo se permiten números</small>
+
+            <input type="text" name="username" placeholder="Usuario" required>
+
+            <input type="password" name="password" id="password" placeholder="Contraseña" required
+                oninput="validarPassword()"
+                onfocus="mostrarRequisitos()"
                 onblur="ocultarRequisitosSiVacio()">
-        <ul id="requisitos" style="display: none;">
-            <li id="longitud" style="color: red;">♦️ Mínimo 8 caracteres</li>
-            <li id="mayuscula" style="color: red;">♦️ 1 mayúscula</li>
-            <li id="minuscula" style="color: red;">♦️ 1 minúscula</li>
-            <li id="numero" style="color: red;">♦️ 1 número</li>
-            <li id="especial" style="color: red;">♦️ 1 carácter especial (@$!%*?&)</li>
-        </ul>
+            <ul id="requisitos" style="display: none;">
+                <li id="longitud" style="color: red;">♦️ Mínimo 8 caracteres</li>
+                <li id="mayuscula" style="color: red;">♦️ 1 mayúscula</li>
+                <li id="minuscula" style="color: red;">♦️ 1 minúscula</li>
+                <li id="numero" style="color: red;">♦️ 1 número</li>
+                <li id="especial" style="color: red;">♦️ 1 carácter especial (@$!%*?&)</li>
+            </ul>
 
-        <select name="rol">
-            <option value="3">Gestión Humana</option>
-            <option value="4">Visitante</option>
-        </select>
+            <select name="rol">
+                <option value="3">Gestión Humana</option>
+                <option value="4">Visitante</option>
+            </select>
 
-        <button type="submit">Registrar</button>
-    </form>
+            <button type="submit">Registrar</button>
+        </form>
 
-    <a href="logout.php">Cerrar sesión</a>
-    <hr>
-    <a href="GestionUsuarios.php">⬅ Volver</a>
-</div>
+        <a href="logout.php">Cerrar sesión</a>
+        <hr>
+        <a href="GestionUsuarios.php">⬅ Volver</a>
+    </div>
 
-<script>
-function mostrarRequisitos() {
-    document.getElementById("requisitos").style.display = "block";
-}
+    <script>
+        function mostrarRequisitos() {
+            document.getElementById("requisitos").style.display = "block";
+        }
 
-function ocultarRequisitosSiVacio() {
-    const password = document.getElementById("password").value;
-    if (password.trim() === "") {
-        document.getElementById("requisitos").style.display = "none";
-    }
-}
+        function ocultarRequisitosSiVacio() {
+            const password = document.getElementById("password").value;
+            if (password.trim() === "") {
+                document.getElementById("requisitos").style.display = "none";
+            }
+        }
 
-function validarPassword() {
-    const password = document.getElementById("password").value;
+        function validarPassword() {
+            const password = document.getElementById("password").value;
 
-    const requisitos = {
-        longitud: [password.length >= 8, "Mínimo 8 caracteres"],
-        mayuscula: [/[A-Z]/.test(password), "1 mayúscula"],
-        minuscula: [/[a-z]/.test(password), "1 minúscula"],
-        numero: [/\d/.test(password), "1 número"],
-        especial: [/[!@#$%^&*(),.?":{}|<>]/.test(password), "1 carácter especial (@$!%*?&)"]
-    };
+            const requisitos = {
+                longitud: [password.length >= 8, "Mínimo 8 caracteres"],
+                mayuscula: [/[A-Z]/.test(password), "1 mayúscula"],
+                minuscula: [/[a-z]/.test(password), "1 minúscula"],
+                numero: [/\d/.test(password), "1 número"],
+                especial: [/[!@#$%^&*(),.?":{}|<>]/.test(password), "1 carácter especial (@$!%*?&)"]
+            };
 
-    let esValida = true;
+            let esValida = true;
 
-    for (const clave in requisitos) {
-        const [cumple, texto] = requisitos[clave];
-        const item = document.getElementById(clave);
-        item.style.color = cumple ? "green" : "red";
-        item.textContent = `${cumple ? "✅" : "♦️"} ${texto}`;
-        if (!cumple) esValida = false;
-    }
+            for (const clave in requisitos) {
+                const [cumple, texto] = requisitos[clave];
+                const item = document.getElementById(clave);
+                item.style.color = cumple ? "green" : "red";
+                item.textContent = `${cumple ? "✅" : "♦️"} ${texto}`;
+                if (!cumple) esValida = false;
+            }
 
-    document.getElementById("password").style.borderColor = esValida ? "green" : "red";
+            document.getElementById("password").style.borderColor = esValida ? "green" : "red";
 
-    return esValida;
-}
+            return esValida;
+        }
 
-function validarDocumento() {
-    const input = document.getElementById("documento");
-    const mensaje = document.getElementById("mensajeDocumento");
-    const soloNumeros = /^[0-9]+$/;
+        function validarDocumento() {
+            const input = document.getElementById("documento");
+            const mensaje = document.getElementById("mensajeDocumento");
+            const soloNumeros = /^[0-9]+$/;
 
-    if (input.value === "" || soloNumeros.test(input.value)) {
-        mensaje.style.display = "none";
-        input.style.borderColor = "";
-        return true;
-    } else {
-        mensaje.style.display = "block";
-        input.style.borderColor = "red";
-        return false;
-    }
-}
+            if (input.value === "" || soloNumeros.test(input.value)) {
+                mensaje.style.display = "none";
+                input.style.borderColor = "";
+                return true;
+            } else {
+                mensaje.style.display = "block";
+                input.style.borderColor = "red";
+                return false;
+            }
+        }
 
-function validarFormulario() {
-    return validarDocumento() && validarPassword();
-}
-</script>
+        function validarFormulario() {
+            return validarDocumento() && validarPassword();
+        }
+    </script>
 
 </body>
-</html>
 
+</html>

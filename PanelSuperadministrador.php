@@ -19,7 +19,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != '1') {
 try {
     // Conexión a la base de datos (Archivo renombrado a config.php)
     include('config.php');
-    $pdo = new PDO("pgsql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+    $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Parámetros de búsqueda y ordenamiento
@@ -237,7 +237,7 @@ try {
                     <div id="usuariosMenu" class="accordion-collapse collapse" data-bs-parent="#menuAccordion">
                         <div class="accordion-body p-0">
                             <ul class="nav flex-column submenu">
-                                <li class="nav-item"><a href="gestion_usuarios.php" class="nav-link">Gestión usuarios</a></li>
+                                <li class="nav-item"><a href="GestionUsuarios.php" class="nav-link">Gestión usuarios</a></li>
                             </ul>
                         </div>
                     </div>

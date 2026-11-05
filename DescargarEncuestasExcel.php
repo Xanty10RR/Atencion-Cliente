@@ -9,7 +9,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 try {
     require_once __DIR__ . '/config.php';
-    $pdo = new PDO("pgsql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+    $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $sql = "SELECT id, id_vendedor, pregunta_1, pregunta_2, pregunta_3, pregunta_4, nombre_cliente, celular_cliente,
@@ -24,16 +24,35 @@ try {
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setTitle("Encuesta Satisfacción");
 
+    // Asignamos un ancho fijo manual a las columnas A y B para dar espacio al logo
+    $sheet->getColumnDimension('A')->setWidth(18);
+    $sheet->getColumnDimension('B')->setWidth(18);
+
     // Insertar el logo en la esquina superior izquierda
     $drawing = new Drawing();
     $drawing->setName('Logo');
-    $drawing->setPath('img/logo1.jpg'); // Ruta del logo
-    $drawing->setHeight(60); // Puedes ajustar el tamaño
+
+    // Ruta absoluta segura para el servidor local
+    $rutaLogo = __DIR__ . '/img/logo.jpg';
+    if (file_exists($rutaLogo)) {
+        $drawing->setPath($rutaLogo);
+    } else {
+        die("Error: El archivo de logo no existe en la ruta: " . $rutaLogo);
+    }
+
+    // Desactivamos la proporción automática para obligar a usar las dos medidas exactas
+    $drawing->setResizeProportional(false);
+
+    // Definimos las dimensiones personalizadas exactas que necesitas
+    $drawing->setWidth(130);
+    $drawing->setHeight(76);
+
     $drawing->setCoordinates('A1');
     $drawing->setWorksheet($sheet);
 
-    // Saltar espacio para el logo (A1:B3)
-    $startRow = 4;
+    // La tabla empieza en la fila 5
+    $startRow = 5;
+
 
     // Estilo para encabezados
     $headerStyle = [
@@ -51,11 +70,18 @@ try {
         ]
     ];
 
-    // Encabezados
+    // Encabezados (10 elementos en total -> Columnas de la A a la J)
     $encabezados = [
-        'Código del Vendedor', 'Atención al Cliente', 'Interacciones Rápidas',
-        'Buen Trato', 'Superación de Expectativas', 'Comentarios y Sugerencias',
-        'Promedio', 'Nombre del Cliente', 'Celular', 'Fecha y Hora'
+        'Código del Vendedor',
+        'Atención al Cliente',
+        'Interacciones Rápidas',
+        'Buen Trato',
+        'Superación de Expectativas',
+        'Comentarios y Sugerencias',
+        'Promedio',
+        'Nombre del Cliente',
+        'Celular',
+        'Fecha y Hora'
     ];
     $col = 'A';
     foreach ($encabezados as $titulo) {
@@ -64,92 +90,78 @@ try {
         $col++;
     }
 
-// Insertar datos
-$fila = $startRow + 1;
-foreach ($clientes as $cliente) {
-    $sheet->fromArray([
-        $cliente['id_vendedor'],
-        $cliente['pregunta_1'],
-        $cliente['pregunta_2'],
-        $cliente['pregunta_3'],
-        $cliente['pregunta_4'],
-        $cliente['comentario'],
-        number_format($cliente['promedio'], 2, '.', ''),
-        $cliente['nombre_cliente'],
-        $cliente['celular_cliente'],
-        $cliente['fecha_votacion']
-    ], null, 'A' . $fila);
-    $fila++;
-}
-// Aplicar estilo al encabezado
-$sheet->getStyle("A{$startRow}:K{$startRow}")->applyFromArray($headerStyle);
+    // Insertar datos
+    $fila = $startRow + 1;
+    foreach ($clientes as $cliente) {
+        $sheet->fromArray([
+            $cliente['id_vendedor'],
+            $cliente['pregunta_1'],
+            $cliente['pregunta_2'],
+            $cliente['pregunta_3'],
+            $cliente['pregunta_4'],
+            $cliente['comentario'],
+            number_format($cliente['promedio'], 2, '.', ''),
+            $cliente['nombre_cliente'],
+            $cliente['celular_cliente'],
+            $cliente['fecha_votacion']
+        ], null, 'A' . $fila);
+        $fila++;
+    }
 
-// Ajustar altura del encabezado
-$sheet->getRowDimension($startRow)->setRowHeight(25);
+    // Aplicar estilo al encabezado (Limitado hasta la J)
+    $sheet->getStyle("A{$startRow}:J{$startRow}")->applyFromArray($headerStyle);
 
-// Autoajustar columnas
-foreach (range('A', 'K') as $col) {
-    $sheet->getColumnDimension($col)->setAutoSize(true);
-}
+    // Ajustar altura del encabezado
+    $sheet->getRowDimension($startRow)->setRowHeight(25);
 
-// Estilo general de filas de datos
-$dataStyle = [
-    'alignment' => ['vertical' => Alignment::VERTICAL_CENTER]
-];
-$sheet->getStyle("A" . ($startRow + 1) . ":K" . ($fila - 1))->applyFromArray($dataStyle);
+    // Autoajustar las columnas de datos RESTANTES (De la C a la J)
+    foreach (range('C', 'J') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
 
+    $lastRow = $fila - 1;
+    $rangeTotal = "A{$startRow}:J{$lastRow}";
+    $rangeDatos = "A" . ($startRow + 1) . ":J" . $lastRow; // Crea un rango exclusivo para los datos (Fila 6 en adelante)
 
-// === AQUI AÑADES LOS BORDES ===
-$styleArray = [
-    'borders' => [
-        'allBorders' => [
-            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-            'color' => ['argb' => 'FF000000'],
-        ],
-    ],
-];
-
-$lastRow = $fila - 1;
-$range = "A{$startRow}:K{$lastRow}";
-
-// Asegurar que las celdas estén activas (necesario para bordes)
-foreach (range($startRow, $lastRow) as $row) {
-    foreach (range('A', 'K') as $col) {
-        $cell = $col . $row;
-        if ($sheet->getCell($cell)->getValue() === null) {
-            $sheet->setCellValue($cell, '');
+    // Asegurar que las celdas estén activas para los bordes
+    foreach (range($startRow, $lastRow) as $row) {
+        foreach (range('A', 'J') as $col) {
+            $cell = $col . $row;
+            if ($sheet->getCell($cell)->getValue() === null) {
+                $sheet->setCellValue($cell, '');
+            }
         }
     }
-}
 
-// Aplicar bordes
-$sheet->getStyle($range)->applyFromArray([
-    'borders' => [
-        'allBorders' => [
-            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-            'color' => ['argb' => 'FF000000']
+    //  Aplicar bordes finos a toda la tabla (Encabezado + Datos)
+    $sheet->getStyle($rangeTotal)->applyFromArray([
+        'borders' => [
+            'allBorders' => [
+                'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                'color' => ['argb' => 'FF000000']
+            ]
         ]
-    ]
-]);
+    ]);
 
-// Alinear el contenido a la izquierda
-$sheet->getStyle($range)->applyFromArray([
-    'alignment' => [
-        'horizontal' => Alignment::HORIZONTAL_LEFT,
-        'vertical' => Alignment::VERTICAL_CENTER
-    ]
-]);
+    // Alinear verticalmente toda la tabla
+    $sheet->getStyle($rangeTotal)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
-// Descargar
-header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Votacion_clientes.xlsx"');
-header('Cache-Control: max-age=0');
+    // 3. ✅ ALINEAR SOLO LOS DATOS A LA IZQUIERDA (Dejando el encabezado centrado)
+    $sheet->getStyle($rangeDatos)->applyFromArray([
+        'alignment' => [
+            'horizontal' => Alignment::HORIZONTAL_LEFT,
+            'vertical' => Alignment::VERTICAL_CENTER
+        ]
+    ]);
 
-$writer = new Xlsx($spreadsheet);
-$writer->save('php://output');
-exit();
+    // Descargar el archivo Excel generado
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="Votacion_clientes.xlsx"');
+    header('Cache-Control: max-age=0');
 
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+    exit();
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
-?>

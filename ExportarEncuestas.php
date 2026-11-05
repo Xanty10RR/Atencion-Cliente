@@ -10,7 +10,8 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
 $_SESSION['last_activity'] = time(); // Actualiza el tiempo de última actividad
 
 require_once __DIR__ . '/config.php';
-function registrarAuditoria($pdo, $accion, $usuarioAfectadoId, $datosAntes, $datosDespues) {
+function registrarAuditoria($pdo, $accion, $usuarioAfectadoId, $datosAntes, $datosDespues)
+{
     $realizadoPor = $_SESSION['username'] ?? 'desconocido';
 
     $stmt = $pdo->prepare("
@@ -38,7 +39,7 @@ if ($_SESSION['rol'] != '1') {
 }
 // Conectar a la base de datos
 try {
-    $pdo = new PDO("pgsql:host=" . DB_HOST . ";dbname=" . DB_NAME , DB_USER, DB_PASS);
+    $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Error de conexión: " . $e->getMessage());
@@ -78,12 +79,11 @@ if (isset($_POST['update'])) {
         'rol' => $rol
     ];
     // Después de actualizar
-registrarAuditoria($pdo, 'actualizar', $id, $datosAntes, $datosDespues);
+    registrarAuditoria($pdo, 'actualizar', $id, $datosAntes, $datosDespues);
 
-// ✅ Redirección para evitar reenvío del formulario
-header("Location: " . $_SERVER['PHP_SELF']);
-exit;
-
+    // Redirección para evitar reenvío del formulario
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
 }
 
 // Eliminar usuario
@@ -101,19 +101,18 @@ if (isset($_POST['delete'])) {
     $deleteStmt->execute([':id' => $id]);
 
     // Registrar auditoría
-registrarAuditoria($pdo, 'eliminar', $id, $datosAntes, null);
+    registrarAuditoria($pdo, 'eliminar', $id, $datosAntes, null);
 
-// ✅ Redirección para evitar reenvío del formulario
-header("Location: " . $_SERVER['PHP_SELF']);
-exit;
-
-
+    // Redirección para evitar reenvío del formulario
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
 }
 
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -153,7 +152,8 @@ exit;
             background-color: #f9f9ff;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #000080;
             padding: 10px;
             text-align: center;
@@ -163,7 +163,9 @@ exit;
             background-color: #e0eaff;
         }
 
-        input[type="text"], input[type="password"], select {
+        input[type="text"],
+        input[type="password"],
+        select {
             width: 90%;
             padding: 10px;
             margin-top: 5px;
@@ -249,135 +251,147 @@ exit;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Gestión de Usuarios</h2>
+    <div class="container">
+        <h2>Gestión de Usuarios</h2>
 
-    <?php
-    if (isset($_POST['update']) && $updateStmt) {
-        echo "<div class='alert alert-success'>Usuario actualizado correctamente.</div>";
-    }
-    if (isset($_POST['delete']) && $deleteStmt) {
-        echo "<div class='alert alert-danger'>Usuario eliminado correctamente.</div>";
-    }
-    ?>
+        <?php
+        // Lee el estado del mensaje desde la URL para evitar errores de variable indefinida
+        if (isset($_GET['success'])) {
+            if ($_GET['success'] == 'updated') {
+                echo "<div class='alert alert-success'>Usuario actualizado correctamente.</div>";
+            }
+            if ($_GET['success'] == 'deleted') {
+                echo "<div class='alert alert-danger'>Usuario eliminado correctamente.</div>";
+            }
+        }
+        ?>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Nombre de Usuario</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $roles = [
-                2 => 'Administrador',
-                3 => 'Gestión Humana',
-                4 => 'Invitado',
-            ];
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre de Usuario</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $roles = [
+                    2 => 'Administrador',
+                    3 => 'Gestión Humana',
+                    4 => 'Invitado',
+                ];
 
-            foreach ($users as $user): ?>
-            <tr>
-                <td><?= htmlspecialchars($user['nombre_completo']) ?></td>
-                <td><?= $roles[$user['rol']] ?? 'Desconocido' ?></td>
-                <td class="action-buttons">
-                    <form action="" method="POST" onsubmit="return verificarFormulario(<?= $user['id'] ?>)">
-                        <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
-                        <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
-                        <input type="password" name="password" id="password_<?= $user['id'] ?>" placeholder="Nueva Contraseña" required
-                                oninput="validarPassword(<?= $user['id'] ?>)" 
-                                onfocus="mostrarRequisitos(<?= $user['id'] ?>)" 
-                                onblur="ocultarRequisitosSiVacio(<?= $user['id'] ?>)">
-                        <ul id="requisitos_<?= $user['id'] ?>" style="display:none; font-size:12px; text-align:left;">
-                            <li id="longitud_<?= $user['id'] ?>" style="color:red;">♦️ Mínimo 8 caracteres</li>
-                            <li id="mayuscula_<?= $user['id'] ?>" style="color:red;">♦️ 1 mayúscula</li>
-                            <li id="minuscula_<?= $user['id'] ?>" style="color:red;">♦️ 1 minúscula</li>
-                            <li id="numero_<?= $user['id'] ?>" style="color:red;">♦️ 1 número</li>
-                            <li id="especial_<?= $user['id'] ?>" style="color:red;">♦️ 1 carácter especial (@$!%*?&)</li>
-                        </ul>
-                        <select name="rol">
-                            <?php foreach ($roles as $key => $roleName): ?>
-                                <option value="<?= $key ?>" <?= $user['rol'] == $key ? 'selected' : '' ?>><?= $roleName ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <button type="submit" name="update">Actualizar</button>
-                    </form>
+                foreach ($users as $user): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($user['nombre_completo']) ?></td>
+                        <td><?= $roles[$user['rol']] ?? 'Desconocido' ?></td>
+                        <td class="action-buttons">
+                            <form action="" method="POST" onsubmit="return verificarFormulario(<?= $user['id'] ?>)">
+                                <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
+                                <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
+                                <input type="password" name="password" id="password_<?= $user['id'] ?>" placeholder="Nueva Contraseña" required
+                                    oninput="validarPassword(<?= $user['id'] ?>)"
+                                    onfocus="mostrarRequisitos(<?= $user['id'] ?>)"
+                                    onblur="ocultarRequisitosSiVacio(<?= $user['id'] ?>)">
+                                <ul id="requisitos_<?= $user['id'] ?>" style="display:none; font-size:12px; text-align:left;">
+                                    <li id="longitud_<?= $user['id'] ?>" style="color:red;">♦️ Mínimo 8 caracteres</li>
+                                    <li id="mayuscula_<?= $user['id'] ?>" style="color:red;">♦️ 1 mayúscula</li>
+                                    <li id="minuscula_<?= $user['id'] ?>" style="color:red;">♦️ 1 minúscula</li>
+                                    <li id="numero_<?= $user['id'] ?>" style="color:red;">♦️ 1 número</li>
+                                    <li id="especial_<?= $user['id'] ?>" style="color:red;">♦️ 1 carácter especial (@$!%*?&)</li>
+                                </ul>
+                                <select name="rol">
+                                    <?php foreach ($roles as $key => $roleName): ?>
+                                        <option value="<?= $key ?>" <?= $user['rol'] == $key ? 'selected' : '' ?>><?= $roleName ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button type="submit" name="update">Actualizar</button>
+                            </form>
 
-                    <form action="" method="POST">
-                        <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
-                        <button type="submit" name="delete" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+                            <form action="" method="POST">
+                                <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
+                                <button type="submit" name="delete" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
 
-    <div class="links">
-        <a href='RegistroUsuarioAdmin.php'>➕ Crear Usuario</a> | 
-        <a href='PanelSuperadministrador.php'>⬅ Volver</a>
+        <div class="links">
+            <a href='RegistroUsuarioAdmin.php'>➕ Crear Usuario</a> |
+            <a href='PanelSuperadministrador.php'>⬅ Volver</a>
+        </div>
+
+        <form method="POST">
+            <button type="button" class="refresh-button" onclick="location.reload();">
+                <img src="img/refresh.gif" alt="Refrescar">
+            </button>
+        </form>
     </div>
 
-    <form method="POST">
-        <button type="button" class="refresh-button" onclick="location.reload();">
-            <img src="img/refresh.gif" alt="Refrescar">
-        </button>
-    </form>
-</div>
-
-<script>
-    function validarPassword(userId) {
-        const password = document.getElementById(`password_${userId}`).value;
-        const requisitos = {
-            longitud: password.length >= 8,
-            mayuscula: /[A-Z]/.test(password),
-            minuscula: /[a-z]/.test(password),
-            numero: /[0-9]/.test(password),
-            especial: /[@$!%*?&]/.test(password)
-        };
-        for (const [clave, valido] of Object.entries(requisitos)) {
-            const elem = document.getElementById(`${clave}_${userId}`);
-            elem.style.color = valido ? 'green' : 'red';
-            elem.innerHTML = (valido ? '✅' : '♦️') + elem.textContent.slice(1);
+    <script>
+        function validarPassword(userId) {
+            const password = document.getElementById(`password_${userId}`).value;
+            const requisitos = {
+                longitud: password.length >= 8,
+                mayuscula: /[A-Z]/.test(password),
+                minuscula: /[a-z]/.test(password),
+                numero: /[0-9]/.test(password),
+                especial: /[@$!%*?&]/.test(password)
+            };
+            for (const [clave, valido] of Object.entries(requisitos)) {
+                const elem = document.getElementById(`${clave}_${userId}`);
+                elem.style.color = valido ? 'green' : 'red';
+                elem.innerHTML = (valido ? '✅' : '♦️') + elem.textContent.slice(1);
+            }
         }
-    }
 
-    function mostrarRequisitos(userId) {
-        document.getElementById(`requisitos_${userId}`).style.display = 'block';
-    }
-
-    function ocultarRequisitosSiVacio(userId) {
-        const val = document.getElementById(`password_${userId}`).value;
-        if (!val) document.getElementById(`requisitos_${userId}`).style.display = 'none';
-    }
-
-    function esPasswordValida(password) {
-        return (
-            password.length >= 8 &&
-            /[A-Z]/.test(password) &&
-            /[a-z]/.test(password) &&
-            /[0-9]/.test(password) &&
-            /[@$!%*?&]/.test(password)
-        );
-    }
-
-    function verificarFormulario(userId) {
-        const password = document.getElementById(`password_${userId}`).value;
-        if (!esPasswordValida(password)) {
-            alert("La contraseña no cumple con los requisitos.");
-            return false;
+        function mostrarRequisitos(userId) {
+            document.getElementById(`requisitos_${userId}`).style.display = 'block';
         }
-        return true;
-    }
-</script>
+
+        function ocultarRequisitosSiVacio(userId) {
+            const val = document.getElementById(`password_${userId}`).value;
+            if (!val) document.getElementById(`requisitos_${userId}`).style.display = 'none';
+        }
+
+        function esPasswordValida(password) {
+            return (
+                password.length >= 8 &&
+                /[A-Z]/.test(password) &&
+                /[a-z]/.test(password) &&
+                /[0-9]/.test(password) &&
+                /[@$!%*?&]/.test(password)
+            );
+        }
+
+        function verificarFormulario(userId) {
+            const password = document.getElementById(`password_${userId}`).value;
+            if (!esPasswordValida(password)) {
+                alert("La contraseña no cumple con los requisitos.");
+                return false;
+            }
+            return true;
+        }
+    </script>
 
 </body>
+
 </html>

@@ -38,7 +38,7 @@ if ($_SESSION['rol'] != '1') {
 }
 // Conectar a la base de datos
 try {
-    $pdo = new PDO("pgsql:host=" . DB_HOST . ";dbname=" . DB_NAME , DB_USER, DB_PASS);
+    $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Error de conexión: " . $e->getMessage());
