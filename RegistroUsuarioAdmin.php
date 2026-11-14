@@ -53,6 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
     $rol = $_POST['rol'];
 
+    if (!in_array((string) $rol, ['2', '3', '4', '5'], true)) {
+        http_response_code(400);
+        exit('Rol no permitido.');
+    }
+
     // Hashear la contraseña
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
@@ -217,6 +222,7 @@ exit;
             <option value="2">Administrador</option>
             <option value="3">Gestión Humana</option>
             <option value="4">Visitante</option>
+            <option value="5">Auditoría</option>
         </select>
 
         <button type="submit">Registrar</button>
