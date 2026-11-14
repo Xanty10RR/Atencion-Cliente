@@ -118,7 +118,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios</title>
-    <link rel="icon" type="image/png" href="img/icon.jpg">
+    <link rel="icon" type="image/svg" href="img/icono.svg">
     <style>
         body {
             background-color: #f0f8ff;
