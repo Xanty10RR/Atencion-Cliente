@@ -92,6 +92,15 @@ try {
             font-family: 'Segoe UI', sans-serif;
         }
 
+        h3 {
+            color: #00264d;
+            font-weight: 700;
+            border-bottom: 3px solid #00264d;
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
         .sidebar {
             min-width: 250px;
             max-width: 250px;
@@ -122,7 +131,7 @@ try {
             background-color: #d0e7ff;
             color: #00264d;
             text-align: center;
-            border-bottom: 2px solid #0059b3;
+            border-bottom: 1px solid #0059b3;
             vertical-align: middle;
             white-space: nowrap;
         }
@@ -259,7 +268,7 @@ try {
 
         <!-- Main Content -->
         <div class="flex-grow-1 p-4" style="overflow-x: auto; height: calc(100vh - 70px);">
-            <h3 class="mb-4 text-primary fw-bold">Resumen de Calificaciones</h3>
+            <h3>Resumen de Calificaciones</h3>
 
             <?php if (empty($clientes)): ?>
                 <div class="alert alert-warning text-center">No se encontraron registros con los filtros seleccionados.</div>
