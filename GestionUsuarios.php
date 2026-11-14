@@ -164,12 +164,17 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         th,
         td {
             border-bottom: 1px solid #e2e8f0;
-            border-right: none;
+            border-right: 1px solid #e2e8f0;
             border-top: none;
             border-left: none;
             padding: 16px;
             text-align: center;
             vertical-align: middle;
+        }
+
+        th:last-child,
+        td:last-child {
+            border-right: none;
         }
 
         tr:last-child td {
