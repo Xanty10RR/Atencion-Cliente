@@ -118,7 +118,7 @@ try {
         .table thead th {
             font-size: 15px;
             font-weight: bold;
-            padding: 12px;
+            padding: 16px 12px;
             background-color: #d0e7ff;
             color: #00264d;
             text-align: center;
@@ -132,14 +132,20 @@ try {
             vertical-align: middle;
             font-size: 14px;
             border: 1px solid #dee2e6;
+            padding: 10px 12px;
+            /* Espaciado más cómodo y limpio */
+        }
+
+        .table.table-bordered tbody td {
+            padding: 4px 8px;
+            line-height: 1.25;
         }
 
         td.comentarios {
             width: 230px;
             max-width: 230px;
             white-space: normal !important;
-            word-wrap: break-word;
-            word-break: break-word;
+            overflow-wrap: break-word;
             text-align: left;
             vertical-align: top;
             font-size: 13px;
@@ -174,8 +180,8 @@ try {
             <!-- Buscador por código -->
             <form method="GET" class="px-2 pb-2">
                 <small class="text-muted d-block mb-3 text-align-end">
-                <i class="bi bi-info-circle me-1"></i> Búsqueda por código
-            </small>
+                    <i class="bi bi-info-circle me-1"></i> Búsqueda por código
+                </small>
                 <div class="input-group">
                     <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
                     <input type="text" class="form-control" name="id_vendedor" placeholder="Código..." value="<?= htmlspecialchars($codigoCliente) ?>">
