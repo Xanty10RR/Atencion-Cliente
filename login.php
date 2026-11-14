@@ -11,7 +11,7 @@ if (isset($_GET['expired']) && $_GET['expired'] == 1) {
 <head>
     <meta charset="UTF-8">
     <title>Inicio de sesión</title>
-    <link rel="icon" href="img/icon.jpg" type="image/png">
+    <link rel="icon" href="img/icono.svg" type="image/svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap 5 -->
@@ -81,8 +81,8 @@ if (isset($_GET['expired']) && $_GET['expired'] == 1) {
 
     <div class="login-card shadow-sm">
         <div class="text-center mb-4">
-            <img src="img/icon.jpg" alt="Logo" width="70" class="mb-2 rounded-circle">
-            <h2><i class="bi bi-box-arrow-in-right me-1"></i>Iniciar Sesión</h2>
+            <img src="img/icono.svg" alt="Logo" width="70" class="mb-2 rounded-circle">
+            <h2></i>Iniciar Sesión</h2>
         </div>
 
         <?php if (isset($_SESSION['error'])): ?>
