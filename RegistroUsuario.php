@@ -54,7 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
     $rol = $_POST['rol'];
 
-    if (!in_array((string) $rol, ['3', '4', '5'], true)) {
+    $rolesPermitidos = $_SESSION['rol'] == '1' ? ['2', '3', '4', '5'] : ['3', '4', '5'];
+    if (!in_array((string) $rol, $rolesPermitidos, true)) {
         http_response_code(400);
         exit('Rol no permitido.');
     }
@@ -265,6 +266,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </ul>
 
             <select name="rol">
+                <?php if ($_SESSION['rol'] == '1'): ?>
+                    <option value="2">Administrador</option>
+                <?php endif; ?>
                 <option value="3">Gestión Humana</option>
                 <option value="4">Visitante</option>
                 <option value="5">Auditoría</option>
