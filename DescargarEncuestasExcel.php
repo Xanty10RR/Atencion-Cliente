@@ -12,7 +12,9 @@ try {
     $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "SELECT id, id_vendedor, pregunta_1, pregunta_2, pregunta_3, pregunta_4, nombre_cliente, celular_cliente,
+    $sql = "SELECT id, id_vendedor,
+                (SELECT COUNT(*) FROM EncuestaSatisfaccion c2 WHERE c2.id_vendedor = EncuestaSatisfaccion.id_vendedor) AS frecuencia,
+                pregunta_1, pregunta_2, pregunta_3, pregunta_4, nombre_cliente, celular_cliente,
                 comentario, fecha_votacion,
                 ROUND((pregunta_1 + pregunta_2 + pregunta_3 + pregunta_4) / 4.0, 2) AS promedio
             FROM EncuestaSatisfaccion
@@ -50,7 +52,7 @@ try {
     $drawing->setCoordinates('A1');
     $drawing->setWorksheet($sheet);
 
-    // La tabla empieza en la fila 5
+    // La tabla empieza
     $startRow = 5;
 
 
@@ -70,9 +72,10 @@ try {
         ]
     ];
 
-    // Encabezados (10 elementos en total -> Columnas de la A a la J)
+    // Encabezados
     $encabezados = [
         'Código del Vendedor',
+        'Frecuencia',
         'Atención al Cliente',
         'Interacciones Rápidas',
         'Buen Trato',
@@ -95,6 +98,7 @@ try {
     foreach ($clientes as $cliente) {
         $sheet->fromArray([
             $cliente['id_vendedor'],
+            $cliente['frecuencia'],
             $cliente['pregunta_1'],
             $cliente['pregunta_2'],
             $cliente['pregunta_3'],
@@ -108,24 +112,24 @@ try {
         $fila++;
     }
 
-    // Aplicar estilo al encabezado (Limitado hasta la J)
-    $sheet->getStyle("A{$startRow}:J{$startRow}")->applyFromArray($headerStyle);
+    // Aplicar estilo al encabezado (Limitado hasta la K)
+    $sheet->getStyle("A{$startRow}:K{$startRow}")->applyFromArray($headerStyle);
 
     // Ajustar altura del encabezado
     $sheet->getRowDimension($startRow)->setRowHeight(25);
 
-    // Autoajustar las columnas de datos RESTANTES (De la C a la J)
-    foreach (range('C', 'J') as $col) {
+    // Autoajustar las columnas de datos RESTANTES (De la C a la K)
+    foreach (range('C', 'K') as $col) {
         $sheet->getColumnDimension($col)->setAutoSize(true);
     }
 
     $lastRow = $fila - 1;
-    $rangeTotal = "A{$startRow}:J{$lastRow}";
-    $rangeDatos = "A" . ($startRow + 1) . ":J" . $lastRow; // Crea un rango exclusivo para los datos (Fila 6 en adelante)
+    $rangeTotal = "A{$startRow}:K{$lastRow}";
+    $rangeDatos = "A" . ($startRow + 1) . ":K" . $lastRow; // Crea un rango exclusivo para los datos (Fila 6 en adelante)
 
     // Asegurar que las celdas estén activas para los bordes
     foreach (range($startRow, $lastRow) as $row) {
-        foreach (range('A', 'J') as $col) {
+        foreach (range('A', 'K') as $col) {
             $cell = $col . $row;
             if ($sheet->getCell($cell)->getValue() === null) {
                 $sheet->setCellValue($cell, '');
@@ -146,7 +150,7 @@ try {
     // Alinear verticalmente toda la tabla
     $sheet->getStyle($rangeTotal)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
-    // 3. ✅ ALINEAR SOLO LOS DATOS A LA IZQUIERDA (Dejando el encabezado centrado)
+    // Alinea los datos a la izquierda dejando en encabezado centrado
     $sheet->getStyle($rangeDatos)->applyFromArray([
         'alignment' => [
             'horizontal' => Alignment::HORIZONTAL_LEFT,
@@ -154,7 +158,7 @@ try {
         ]
     ]);
 
-    // Descargar el archivo Excel generado
+    // Descarga el archivo Excel
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="Votacion_clientes.xlsx"');
     header('Cache-Control: max-age=0');
