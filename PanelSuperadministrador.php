@@ -173,14 +173,14 @@ try {
         <div class="sidebar">
             <!-- Buscador por código -->
             <form method="GET" class="px-2 pb-2">
+                <small class="text-muted d-block mb-3 text-align-end">
+                <i class="bi bi-info-circle me-1"></i> Búsqueda por código
+            </small>
                 <div class="input-group">
                     <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
                     <input type="text" class="form-control" name="id_vendedor" placeholder="Código..." value="<?= htmlspecialchars($codigoCliente) ?>">
                 </div>
             </form>
-            <small class="text-muted d-block ms-2 mb-3">
-                <i class="bi bi-info-circle me-1"></i> Búsqueda por código
-            </small>
 
             <div class="accordion" id="menuAccordion">
                 <!-- Ordenar -->
@@ -193,8 +193,8 @@ try {
                     <div id="adminMenu" class="accordion-collapse collapse <?= isset($_GET['orden']) ? 'show' : '' ?>" data-bs-parent="#menuAccordion">
                         <div class="accordion-body p-0">
                             <ul class="nav flex-column submenu">
-                                <li class="nav-item"><a class="nav-link" href="?orden=asc"><i class="bi bi-sort-numeric-down me-2 text-success"></i> Ascendente</a></li>
-                                <li class="nav-item"><a class="nav-link" href="?orden=desc"><i class="bi bi-sort-numeric-up me-2 text-danger"></i> Descendente</a></li>
+                                <li class="nav-item"><a class="nav-link" href="?orden=asc"><i class="bi bi-sort-numeric-up me-2 text-success"></i> Ascendente</a></li>
+                                <li class="nav-item"><a class="nav-link" href="?orden=desc"><i class="bi bi-sort-numeric-down me-2 text-danger"></i> Descendente</a></li>
                             </ul>
                         </div>
                     </div>
