@@ -343,7 +343,6 @@ textarea:focus {
     border: 2px solid #0052D4;
     border-radius: 8px;
     font-size: 14px;
-    text-align: center;
     margin-top: 5px;
     margin: 0 auto;
 }
