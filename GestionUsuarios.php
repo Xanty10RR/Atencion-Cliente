@@ -34,7 +34,7 @@ function registrarAuditoria($pdo, $accion, $usuarioAfectadoId, $datosAntes, $dat
 require_once __DIR__ . '/config.php';
 // Verificar si el usuario tiene el rol adecuado
 if ($_SESSION['rol'] != '1' && $_SESSION['rol'] != '2') {
-    // Si el usuario no tiene el rol 1 (Admin) ni el rol 2, redirigir
+    // Si el usuario no tiene el rol 1 (Admin) ni el rol 2, redirigire
     header('Location: login.php');
     exit;
 }
@@ -129,132 +129,211 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .container {
-            max-width: 900px;
-            margin: 50px auto;
-            padding: 30px;
+            max-width: 1050px;
+            margin: 40px auto;
+            padding: 40px;
             background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 0.5s ease-in-out;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(16, 42, 67, 0.08);
+            animation: fadeIn 0.4s ease-in-out;
         }
 
         h2 {
-            margin-bottom: 20px;
-            font-size: 26px;
-            color: #000080;
-            border-bottom: 2px solid #000080;
-            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f294a;
+            border-bottom: 3px solid #3b82f6;
+            padding-bottom: 12px;
+            display: inline-block;
         }
 
         table {
             width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            background-color: #f9f9ff;
+            margin-top: 15px;
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px #e2e8f0;
         }
 
         th,
         td {
-            border: 1px solid #000080;
-            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            border-right: none;
+            border-top: none;
+            border-left: none;
+            padding: 16px;
             text-align: center;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
         }
 
         th {
-            background-color: #e0eaff;
+            background-color: #f8fafc;
+            color: #334155;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #cbd5e1;
         }
 
         input[type="text"],
         input[type="password"],
         select {
-            width: 90%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #000080;
-            border-radius: 8px;
-            font-size: 14px;
+            width: 100%;
+            padding: 9px 12px;
+            margin-top: 4px;
+            margin-bottom: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13px;
+            background-color: #f8fafc;
+            color: #1e293b;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
 
         select {
-            background-color: #ffffff;
+            background-color: #f8fafc;
+            cursor: pointer;
         }
 
         button {
-            background-color: #000080;
+            background-color: #1d4ed8;
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 10px 16px;
+            border-radius: 6px;
             cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
             width: 100%;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 2px 4px rgba(29, 78, 216, 0.2);
         }
 
         button:hover {
-            background-color: #003366;
+            background-color: #1e40af;
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
 
         .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             justify-content: center;
+            align-items: flex-start;
             flex-wrap: wrap;
         }
 
         .action-buttons form {
-            flex: 1 1 48%;
+            flex: 1;
+            min-width: 240px;
+            margin: 0;
+        }
+
+        .action-buttons form:last-child button {
+            background-color: #ef4444;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+            margin-top: 4px;
+        }
+
+        .action-buttons form:last-child button:hover {
+            background-color: #dc2626;
         }
 
         .alert {
-            margin-top: 10px;
-            padding: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            padding: 12px 16px;
             border-radius: 8px;
             font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
         }
 
         .alert-success {
-            background-color: #d4edda;
-            color: #155724;
+            background-color: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
         }
 
         .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
+            background-color: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
         }
 
         .links {
             text-align: center;
             margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
         }
 
         .links a {
-            color: #000080;
+            color: #2563eb;
             text-decoration: none;
-            font-weight: bold;
-            margin: 0 10px;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 0 15px;
+            transition: color 0.2s ease;
+        }
+
+        .links a:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
         }
 
         .refresh-button {
-            background: none;
-            border: none;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 50%;
             cursor: pointer;
-            margin: 15px auto;
-            display: block;
-            width: 40px;
-            height: 40px;
+            margin: 20px auto 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .refresh-button:hover {
+            background-color: #e2e8f0;
+            transform: rotate(180deg);
         }
 
         .refresh-button img {
-            width: 100%;
-            height: 100%;
+            width: 20px;
+            height: 20px;
             object-fit: contain;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(12px);
             }
 
             to {
