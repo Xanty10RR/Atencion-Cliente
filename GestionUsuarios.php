@@ -182,7 +182,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             margin-bottom: 25px;
             font-size: 24px;
             font-weight: 700;
-            color: #0f294a;
+            color: #00264d;
             border-bottom: 3px solid #00264d;
             padding-bottom: 12px;
             display: inline-block;
@@ -236,7 +236,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             background-color: #d0e7ff;
             color: #00264d;
             text-align: center;
-            border-bottom: 2px solid #0059b3;
+            border-bottom: 1px solid #0059b3;
             vertical-align: middle;
             white-space: nowrap;
         }
