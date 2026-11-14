@@ -183,7 +183,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             font-size: 24px;
             font-weight: 700;
             color: #0f294a;
-            border-bottom: 3px solid #3b82f6;
+            border-bottom: 3px solid #00264d;
             padding-bottom: 12px;
             display: inline-block;
         }
@@ -227,6 +227,31 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             letter-spacing: 0.5px;
             text-transform: uppercase;
             border-bottom: 2px solid #cbd5e1;
+        }
+
+        .table thead th {
+            font-size: 15px;
+            font-weight: bold;
+            padding: 18px 12px;
+            background-color: #d0e7ff;
+            color: #00264d;
+            text-align: center;
+            border-bottom: 2px solid #0059b3;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .table td {
+            text-align: center;
+            vertical-align: middle;
+            font-size: 14px;
+            border: 1px solid #dee2e6;
+            padding: 10px 12px;
+        }
+
+        .table.table-bordered tbody td {
+            padding: 4px 8px;
+            line-height: 1.25;
         }
 
         input[type="text"],
@@ -410,7 +435,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         ?>
 
-        <table>
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Nombre de Usuario</th>
