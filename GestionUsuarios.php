@@ -38,6 +38,7 @@ if ($_SESSION['rol'] != '1' && $_SESSION['rol'] != '2') {
     header('Location: login.php');
     exit;
 }
+$esSuperadministrador = $_SESSION['rol'] == '1';
 // Conectar a la base de datos
 try {
     $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
@@ -54,14 +55,21 @@ if (isset($_POST['update'])) {
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
     $rol = $_POST['rol'];
 
-    if (!in_array((string) $rol, ['3', '4', '5'], true)) {
+    $rolesPermitidos = $esSuperadministrador ? ['1', '2', '3', '4', '5'] : ['3', '4', '5'];
+    if (!in_array((string) $rol, $rolesPermitidos, true)) {
         http_response_code(400);
         exit('Rol no permitido.');
     }
 
     // Obtener datos antes del cambio
-    $stmtOld = $pdo->prepare("SELECT * FROM Usuarios WHERE id = :id AND rol NOT IN ('1', '2')");
-    $stmtOld->execute([':id' => $id]);
+    $selectSql = $esSuperadministrador
+        ? "SELECT * FROM Usuarios WHERE id = :id AND id != :current_user_id"
+        : "SELECT * FROM Usuarios WHERE id = :id AND id != :current_user_id AND rol NOT IN ('1', '2')";
+    $stmtOld = $pdo->prepare($selectSql);
+    $stmtOld->execute([
+        ':id' => $id,
+        ':current_user_id' => $_SESSION['user_id'],
+    ]);
     $datosAntes = $stmtOld->fetch(PDO::FETCH_ASSOC);
     if (!$datosAntes) {
         http_response_code(404);
@@ -69,13 +77,16 @@ if (isset($_POST['update'])) {
     }
 
     // Actualizar usuario
-    $updateSql = "UPDATE Usuarios SET username = :username, password = :password, rol = :rol WHERE id = :id AND rol NOT IN ('1', '2')";
+    $updateSql = $esSuperadministrador
+        ? "UPDATE Usuarios SET username = :username, password = :password, rol = :rol WHERE id = :id AND id != :current_user_id"
+        : "UPDATE Usuarios SET username = :username, password = :password, rol = :rol WHERE id = :id AND id != :current_user_id AND rol NOT IN ('1', '2')";
     $updateStmt = $pdo->prepare($updateSql);
     $updateStmt->execute([
         ':username' => $username,
         ':password' => $hashedPassword,
         ':rol' => $rol,
-        ':id' => $id
+        ':id' => $id,
+        ':current_user_id' => $_SESSION['user_id'],
     ]);
 
     // Registrar auditoría (sin mostrar la contraseña)
@@ -96,8 +107,14 @@ if (isset($_POST['delete'])) {
     $id = $_POST['id'];
 
     // Obtener datos antes de eliminar
-    $stmtOld = $pdo->prepare("SELECT * FROM Usuarios WHERE id = :id AND rol NOT IN ('1', '2')");
-    $stmtOld->execute([':id' => $id]);
+    $selectSql = $esSuperadministrador
+        ? "SELECT * FROM Usuarios WHERE id = :id AND id != :current_user_id"
+        : "SELECT * FROM Usuarios WHERE id = :id AND id != :current_user_id AND rol NOT IN ('1', '2')";
+    $stmtOld = $pdo->prepare($selectSql);
+    $stmtOld->execute([
+        ':id' => $id,
+        ':current_user_id' => $_SESSION['user_id'],
+    ]);
     $datosAntes = $stmtOld->fetch(PDO::FETCH_ASSOC);
     if (!$datosAntes) {
         http_response_code(404);
@@ -105,9 +122,14 @@ if (isset($_POST['delete'])) {
     }
 
     // Eliminar usuario
-    $deleteSql = "DELETE FROM Usuarios WHERE id = :id AND rol NOT IN ('1', '2')";
+    $deleteSql = $esSuperadministrador
+        ? "DELETE FROM Usuarios WHERE id = :id AND id != :current_user_id"
+        : "DELETE FROM Usuarios WHERE id = :id AND id != :current_user_id AND rol NOT IN ('1', '2')";
     $deleteStmt = $pdo->prepare($deleteSql);
-    $deleteStmt->execute([':id' => $id]);
+    $deleteStmt->execute([
+        ':id' => $id,
+        ':current_user_id' => $_SESSION['user_id'],
+    ]);
 
     // Registrar auditoría
     registrarAuditoria($pdo, 'eliminar', $id, $datosAntes, null);
@@ -117,10 +139,13 @@ if (isset($_POST['delete'])) {
     exit;
 }
 
-// Mostrar usuarios (excepto los administradores) se ejecuta ABAJO de las acciones para que traiga la lista actualizada si no redirigieras
-$sql = "SELECT id, nombre_completo, documento, username, rol FROM Usuarios WHERE rol NOT IN ('1', '2')";
+// Superadministradores ven todos los demás usuarios; administradores ven roles 3, 4 y 5.
+$sql = $esSuperadministrador
+    ? "SELECT id, nombre_completo, documento, username, rol FROM Usuarios WHERE id != :current_user_id"
+    : "SELECT id, nombre_completo, documento, username, rol FROM Usuarios WHERE rol NOT IN ('1', '2')";
 $stmt = $pdo->prepare($sql);
-$stmt->execute();
+$params = $esSuperadministrador ? [':current_user_id' => $_SESSION['user_id']] : [];
+$stmt->execute($params);
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -396,10 +421,15 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tbody>
                 <?php
                 $roles = [
+                    1 => 'Superadministrador',
+                    2 => 'Administrador',
                     3 => 'Gestión Humana',
                     4 => 'Invitado',
                     5 => 'Auditoría',
                 ];
+                if (!$esSuperadministrador) {
+                    unset($roles[1], $roles[2]);
+                }
 
                 foreach ($users as $user): ?>
                     <tr>
