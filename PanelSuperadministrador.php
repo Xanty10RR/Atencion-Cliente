@@ -118,7 +118,7 @@ try {
         .table thead th {
             font-size: 15px;
             font-weight: bold;
-            padding: 16px 12px;
+            padding: 18px 12px;
             background-color: #d0e7ff;
             color: #00264d;
             text-align: center;
