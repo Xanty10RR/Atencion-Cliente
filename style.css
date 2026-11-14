@@ -189,7 +189,7 @@ p {
 /* Formulario */
 #registro-cliente {
     background: rgb(245, 245, 245);
-    padding: 0 0 35px 0;
+    padding: 0;
     max-width: 375px;
     margin: auto;
     border-radius: 15px;
@@ -477,18 +477,19 @@ textarea:focus {
 .pqrsr-seccion {
     position: relative;
     text-align: center;
-    /* Asegura que el botón esté centrado */
+    padding: 35px 0;
 }
 
 .pqrsr-fondo {
     width: 310px;
-    /* Para que la imagen de fondo se adapte al contenedor */
     height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .pqrsr-boton {
     position: absolute;
-    top: 70%;
+    top: 62%;
     /* Ajusta la posición vertical del botón */
     left: 50%;
     transform: translate(-50%, -50%);
