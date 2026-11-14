@@ -55,7 +55,7 @@ if (isset($_POST['update'])) {
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
     $rol = $_POST['rol'];
 
-    $rolesPermitidos = $esSuperadministrador ? ['1', '2', '3', '4', '5'] : ['3', '4', '5'];
+    $rolesPermitidos = $esSuperadministrador ? ['2', '3', '4', '5'] : ['3', '4', '5'];
     if (!in_array((string) $rol, $rolesPermitidos, true)) {
         http_response_code(400);
         exit('Rol no permitido.');
@@ -63,7 +63,7 @@ if (isset($_POST['update'])) {
 
     // Obtener datos antes del cambio
     $selectSql = $esSuperadministrador
-        ? "SELECT * FROM Usuarios WHERE id = :id AND id != :current_user_id"
+        ? "SELECT * FROM Usuarios WHERE id = :id AND id != :current_user_id AND rol != '1'"
         : "SELECT * FROM Usuarios WHERE id = :id AND id != :current_user_id AND rol NOT IN ('1', '2')";
     $stmtOld = $pdo->prepare($selectSql);
     $stmtOld->execute([
@@ -78,7 +78,7 @@ if (isset($_POST['update'])) {
 
     // Actualizar usuario
     $updateSql = $esSuperadministrador
-        ? "UPDATE Usuarios SET username = :username, password = :password, rol = :rol WHERE id = :id AND id != :current_user_id"
+        ? "UPDATE Usuarios SET username = :username, password = :password, rol = :rol WHERE id = :id AND id != :current_user_id AND rol != '1'"
         : "UPDATE Usuarios SET username = :username, password = :password, rol = :rol WHERE id = :id AND id != :current_user_id AND rol NOT IN ('1', '2')";
     $updateStmt = $pdo->prepare($updateSql);
     $updateStmt->execute([
@@ -108,7 +108,7 @@ if (isset($_POST['delete'])) {
 
     // Obtener datos antes de eliminar
     $selectSql = $esSuperadministrador
-        ? "SELECT * FROM Usuarios WHERE id = :id AND id != :current_user_id"
+        ? "SELECT * FROM Usuarios WHERE id = :id AND id != :current_user_id AND rol != '1'"
         : "SELECT * FROM Usuarios WHERE id = :id AND id != :current_user_id AND rol NOT IN ('1', '2')";
     $stmtOld = $pdo->prepare($selectSql);
     $stmtOld->execute([
@@ -123,7 +123,7 @@ if (isset($_POST['delete'])) {
 
     // Eliminar usuario
     $deleteSql = $esSuperadministrador
-        ? "DELETE FROM Usuarios WHERE id = :id AND id != :current_user_id"
+        ? "DELETE FROM Usuarios WHERE id = :id AND id != :current_user_id AND rol != '1'"
         : "DELETE FROM Usuarios WHERE id = :id AND id != :current_user_id AND rol NOT IN ('1', '2')";
     $deleteStmt = $pdo->prepare($deleteSql);
     $deleteStmt->execute([
@@ -141,7 +141,7 @@ if (isset($_POST['delete'])) {
 
 // Superadministradores ven todos los demás usuarios; administradores ven roles 3, 4 y 5.
 $sql = $esSuperadministrador
-    ? "SELECT id, nombre_completo, documento, username, rol FROM Usuarios WHERE id != :current_user_id"
+    ? "SELECT id, nombre_completo, documento, username, rol FROM Usuarios WHERE id != :current_user_id AND rol != '1'"
     : "SELECT id, nombre_completo, documento, username, rol FROM Usuarios WHERE rol NOT IN ('1', '2')";
 $stmt = $pdo->prepare($sql);
 $params = $esSuperadministrador ? [':current_user_id' => $_SESSION['user_id']] : [];
@@ -421,14 +421,13 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tbody>
                 <?php
                 $roles = [
-                    1 => 'Superadministrador',
                     2 => 'Administrador',
                     3 => 'Gestión Humana',
                     4 => 'Invitado',
                     5 => 'Auditoría',
                 ];
                 if (!$esSuperadministrador) {
-                    unset($roles[1], $roles[2]);
+                    unset($roles[2]);
                 }
 
                 foreach ($users as $user): ?>
