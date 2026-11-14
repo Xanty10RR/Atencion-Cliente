@@ -77,7 +77,7 @@ if (isset($_POST['update'])) {
     // Después de actualizar
     registrarAuditoria($pdo, 'actualizar', $id, $datosAntes, $datosDespues);
 
-    // ✅ Redirección pasando una variable de éxito por la URL
+    // Redirecciona pasando una variable de éxito por la URL
     header("Location: " . $_SERVER['PHP_SELF'] . "?success=updated");
     exit;
 }
@@ -99,7 +99,7 @@ if (isset($_POST['delete'])) {
     // Registrar auditoría
     registrarAuditoria($pdo, 'eliminar', $id, $datosAntes, null);
 
-    // ✅ Redirección pasando una variable de éxito por la URL
+    // Redirecciona pasando una variable de éxito por la URL
     header("Location: " . $_SERVER['PHP_SELF'] . "?success=deleted");
     exit;
 }
@@ -271,7 +271,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h2>Gestión de Usuarios</h2>
 
         <?php
-        // ✅ Ahora leemos los mensajes desde el parámetro GET enviado por la redirección
+        // Ahora leemos los mensajes desde el parámetro GET enviado por la redirección
         if (isset($_GET['success']) && $_GET['success'] == 'updated') {
             echo "<div class='alert alert-success'>Usuario actualizado correctamente.</div>";
         }
