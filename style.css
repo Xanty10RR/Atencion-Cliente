@@ -66,7 +66,7 @@ header {
 /* Título y subtítulo */
 h3 {
     text-align: center;
-    color: #333333;
+    color: #121212;
     margin-top: 20px;
     font-size: 1.2rem;
     font-weight: 600;
@@ -76,6 +76,14 @@ h3 {
     padding: 10px 0;
     box-shadow: 0 1px 4px rgba(0,82,212,0.06);
     text-shadow: 0 1px 4px rgba(0,82,212,0.06);
+}
+
+#registro-cliente h3.titulo-sin-fondo {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border-radius: 0;
+    padding: 0;
 }
 
 p {
@@ -382,7 +390,6 @@ textarea:focus {
     color: gold;
     transform: scale(1.1);
 }
-
 
 .ajusteLabel {
     font-size: 16px;
