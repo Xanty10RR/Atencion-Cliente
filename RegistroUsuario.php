@@ -9,6 +9,11 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
 }
 $_SESSION['last_activity'] = time(); // Actualiza el tiempo de última actividad
 
+if (!isset($_SESSION['rol']) || !in_array((string) $_SESSION['rol'], ['1', '2'], true)) {
+    header('Location: login.php');
+    exit;
+}
+
 require_once __DIR__ . '/config.php';
 function registrarAuditoria($pdo, $accion, $usuarioAfectadoId, $datosAntes, $datosDespues)
 {
@@ -48,6 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $rol = $_POST['rol'];
+
+    if (!in_array((string) $rol, ['3', '4', '5'], true)) {
+        http_response_code(400);
+        exit('Rol no permitido.');
+    }
 
     // Hashear la contraseña
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
@@ -257,6 +267,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <select name="rol">
                 <option value="3">Gestión Humana</option>
                 <option value="4">Visitante</option>
+                <option value="5">Auditoría</option>
             </select>
 
             <button type="submit">Registrar</button>
