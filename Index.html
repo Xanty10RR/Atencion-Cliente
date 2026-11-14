@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SG calificación atención al cliente</title>
-    <link href="style.css?v=2" rel="stylesheet">
+    <link href="style.css?v=3" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="icon" type="image/png" href="img/icon-web.webp">
@@ -23,10 +23,10 @@
                 <h1> Por favor ingresa tus datos</h1>
             </section>
             <div class="clientes" id="clientes">
-                <label for="nombreCliente">Ingrese su nombre:</label>
+                <label class="label-izquierda" for="nombreCliente">Ingrese su nombre:</label>
                 <input type="text" name="nombrecliente" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" placeholder="Opcional">
 
-                <label for="numeroCliente">Ingrese su número de celular:</label>
+                <label class="label-izquierda" for="numeroCliente">Ingrese su número de celular:</label>
                 <input type="tel" placeholder="Opcional" name="celularcliente">
             </div>
             <br>
@@ -39,9 +39,9 @@
                 height="300" width="300">
             <br><br>
 
-            <label for="codigovendedor">Ingrese el código o cédula del vendedor por favor:</label>
-            <input type="number" placeholder="Ej: 1012345678" name="colocarcodigo" id="colocarcodigo"
-                pattern="^[0-9]" required>
+            <label class="label-izquierda" for="codigovendedor">Ingrese el código o cédula del vendedor:</label>
+            <input type="number" placeholder="Ej: 1012345678" name="colocarcodigo" id="colocarcodigo" pattern="^[0-9]"
+                required>
             <br><br><br>
             <hr><br>
 
@@ -119,7 +119,8 @@
                     </div>
                 </div>
                 <div class="comentariosSugerencias" data-pregunta="5">
-                    <h3 for="comentariosSugerencias" id="ajusteLabel" class="titulo-sin-fondo">¡Comentarios y sugerencias!</h3>
+                    <h3 for="comentariosSugerencias" id="ajusteLabel" class="titulo-sin-fondo">¡Comentarios y
+                        sugerencias!</h3>
                     <input type="hidden" name="comentariosSugerencias" id="comentariosSugerencias">
                     <textarea id="comentariosSugerencias" name="comentariosSugerencias" rows="4" cols="50"
                         maxlength="249"
