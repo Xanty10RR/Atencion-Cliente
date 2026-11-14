@@ -12,9 +12,9 @@ try {
     $codigo = $_POST['colocarcodigo'] ?? ''; // El código no cambia
     $atencionCliente = $_POST['atencionCliente'] ?? 0;
     $interaccionesRapidas = $_POST['interaccionesRapidas'] ?? 0;
-    $buenTrato = $_POST['buenTrato'] ??0;
-    $superacionExpectativas = $_POST['superacionExpectativas'] ??0;
-    $comentariosSugerencias = $_POST['comentariosSugerencias'] ??0;
+    $buenTrato = $_POST['buenTrato'] ?? 0;
+    $superacionExpectativas = $_POST['superacionExpectativas'] ?? 0;
+    $comentariosSugerencias = $_POST['comentariosSugerencias'] ?? 0;
 
     if (!empty($codigo)) {
         // Insertar en la base de datos
@@ -23,7 +23,7 @@ try {
         $stmt = $pdo->prepare($sql);
         $success = $stmt->execute([
             'nombre' => $nombre,
-            'celular' => $celular, 
+            'celular' => $celular,
             'codigo' => $codigo,
             'atencionCliente' => $atencionCliente,
             'interaccionesRapidas' => $interaccionesRapidas,
@@ -45,4 +45,3 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-?>
