@@ -54,13 +54,22 @@ if (isset($_POST['update'])) {
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
     $rol = $_POST['rol'];
 
+    if (!in_array((string) $rol, ['3', '4', '5'], true)) {
+        http_response_code(400);
+        exit('Rol no permitido.');
+    }
+
     // Obtener datos antes del cambio
-    $stmtOld = $pdo->prepare("SELECT * FROM Usuarios WHERE id = :id");
+    $stmtOld = $pdo->prepare("SELECT * FROM Usuarios WHERE id = :id AND rol NOT IN ('1', '2')");
     $stmtOld->execute([':id' => $id]);
     $datosAntes = $stmtOld->fetch(PDO::FETCH_ASSOC);
+    if (!$datosAntes) {
+        http_response_code(404);
+        exit('Usuario no encontrado o no administrable.');
+    }
 
     // Actualizar usuario
-    $updateSql = "UPDATE Usuarios SET username = :username, password = :password, rol = :rol WHERE id = :id";
+    $updateSql = "UPDATE Usuarios SET username = :username, password = :password, rol = :rol WHERE id = :id AND rol NOT IN ('1', '2')";
     $updateStmt = $pdo->prepare($updateSql);
     $updateStmt->execute([
         ':username' => $username,
@@ -87,12 +96,16 @@ if (isset($_POST['delete'])) {
     $id = $_POST['id'];
 
     // Obtener datos antes de eliminar
-    $stmtOld = $pdo->prepare("SELECT * FROM Usuarios WHERE id = :id");
+    $stmtOld = $pdo->prepare("SELECT * FROM Usuarios WHERE id = :id AND rol NOT IN ('1', '2')");
     $stmtOld->execute([':id' => $id]);
     $datosAntes = $stmtOld->fetch(PDO::FETCH_ASSOC);
+    if (!$datosAntes) {
+        http_response_code(404);
+        exit('Usuario no encontrado o no administrable.');
+    }
 
     // Eliminar usuario
-    $deleteSql = "DELETE FROM Usuarios WHERE id = :id";
+    $deleteSql = "DELETE FROM Usuarios WHERE id = :id AND rol NOT IN ('1', '2')";
     $deleteStmt = $pdo->prepare($deleteSql);
     $deleteStmt->execute([':id' => $id]);
 
@@ -385,6 +398,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $roles = [
                     3 => 'Gestión Humana',
                     4 => 'Invitado',
+                    5 => 'Auditoría',
                 ];
 
                 foreach ($users as $user): ?>
