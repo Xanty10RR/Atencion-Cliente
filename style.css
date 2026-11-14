@@ -8,7 +8,7 @@ body {
     text-align: center;
 }
 
-#logo form{
+#logo form {
     position: relative;
     overflow: hidden;
 }
@@ -59,7 +59,8 @@ header {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: auto;
-    margin-top: -50px; /* Ajusta la posición del formulario */
+    margin-top: -50px;
+    /* Ajusta la posición del formulario */
 }
 
 /* Título y subtítulo */
@@ -73,8 +74,8 @@ h3 {
     background: linear-gradient(90deg, #f2f5fa 0%, #e3e9f6 100%);
     border-radius: 8px;
     padding: 10px 0;
-    box-shadow: 0 1px 4px rgba(0,82,212,0.06);
-    text-shadow: 0 1px 4px rgba(0,82,212,0.06);
+    box-shadow: 0 1px 4px rgba(0, 82, 212, 0.06);
+    text-shadow: 0 1px 4px rgba(0, 82, 212, 0.06);
 }
 
 #registro-cliente h3.titulo-sin-fondo {
@@ -264,13 +265,13 @@ p {
     border-left: 4px solid #0052D4;
     border-radius: 8px;
     padding: 16px 20px;
-    box-shadow: 0 2px 8px rgba(0,82,212,0.08);
+    box-shadow: 0 2px 8px rgba(0, 82, 212, 0.08);
     transition: box-shadow 0.3s;
     text-align: justify;
 }
 
 .texto:hover {
-    box-shadow: 0 4px 16px rgba(0,82,212,0.18);
+    box-shadow: 0 4px 16px rgba(0, 82, 212, 0.18);
     background: linear-gradient(90deg, #e3e9f6 0%, #f2f5fa 100%);
 }
 
@@ -448,8 +449,10 @@ textarea:focus {
 
 .check-autorizacion {
     position: absolute;
-    top: 50%; /* Centra verticalmente */
-    left: 5%; /* Siempre pegado al lado izquierdo */
+    top: 50%;
+    /* Centra verticalmente */
+    left: 5%;
+    /* Siempre pegado al lado izquierdo */
     transform: translateY(-50%) scale(1.18);
     z-index: 2;
 }
@@ -498,7 +501,7 @@ textarea:focus {
     cursor: pointer;
 }
 
-footer p{
+footer p {
     background-color: #0052D4;
     color: white;
     text-align: center;
