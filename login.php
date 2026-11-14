@@ -21,7 +21,7 @@ if (isset($_GET['expired']) && $_GET['expired'] == 1) {
 
     <style>
         body {
-            background: linear-gradient(to right, #cce5ff, #e6f0ff);
+            background: linear-gradient(to right, #E4F1FF, #e6f0ff);
             font-family: 'Segoe UI', sans-serif;
             height: 100vh;
             display: flex;
@@ -33,7 +33,7 @@ if (isset($_GET['expired']) && $_GET['expired'] == 1) {
             background-color: #fff;
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
             animation: fadeIn 1s ease;
@@ -45,7 +45,13 @@ if (isset($_GET['expired']) && $_GET['expired'] == 1) {
         }
 
         .form-control {
-            border-color: #003366;
+            border-color: #d1d9e6;
+        }
+
+        .input-group-text {
+            background-color: #fff;
+            border-color: #d1d9e6;
+            color: #000000;
         }
 
         .btn-primary {
@@ -54,8 +60,8 @@ if (isset($_GET['expired']) && $_GET['expired'] == 1) {
         }
 
         .btn-primary:hover {
-            background-color: #001f4d;
-            border-color: #001f4d;
+            background-color: #24507B;
+            border-color: #24507B;
         }
 
         .error {
@@ -93,13 +99,13 @@ if (isset($_GET['expired']) && $_GET['expired'] == 1) {
         <?php endif; ?>
 
         <form action="verify.php" method="post">
-            <div class="mb-3">
-                <label class="form-label"><i class="bi bi-person-fill me-1"></i>Usuario</label>
-                <input type="text" name="username" class="form-control" placeholder="Usuario" required>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="bi bi-person-fill" aria-hidden="true"></i></span>
+                <input type="text" name="username" class="form-control" placeholder="Ingresa tu usuario" required>
             </div>
-            <div class="mb-4">
-                <label class="form-label"><i class="bi bi-lock-fill me-1"></i>Contraseña</label>
-                <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+            <div class="input-group mb-4">
+                <span class="input-group-text"><i class="bi bi-lock-fill" aria-hidden="true"></i></span>
+                <input type="password" name="password" class="form-control" placeholder="Ingresa tu contraseña" required>
             </div>
             <button type="submit" class="btn btn-primary w-100">
                 <i class="bi bi-door-open-fill me-1"></i>Ingresar
