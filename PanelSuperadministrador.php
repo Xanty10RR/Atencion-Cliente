@@ -252,7 +252,7 @@ try {
 
             <!-- Descargar Excel -->
             <div class="d-grid mt-4">
-                <a href="DescargarEncuestas.php" class="btn btn-success btn-sm">
+                <a href="DescargarEncuestasExcel.php" class="btn btn-success btn-sm">
                     <i class="bi bi-file-earmark-excel-fill me-1"></i> Descargar Excel
                 </a>
             </div>
