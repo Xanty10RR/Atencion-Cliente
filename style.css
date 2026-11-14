@@ -210,6 +210,10 @@ label {
     color: #0052D4;
 }
 
+.label-izquierda {
+    text-align: left;
+}
+
 label1 {
     font-weight: bold;
     display: block;
