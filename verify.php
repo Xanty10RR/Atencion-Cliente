@@ -40,10 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Redirigir a la página correspondiente según el rol del usuario
             if ($_SESSION['rol'] == '1') {
                 header('Location: PanelSuperadministrador.php'); // Redirigir a la página del superadmin
-            } 
+            }
             if ($_SESSION['rol'] == '2') {
                 header('Location: PanelAdministrador.php'); // Redirigir a la página del admin
-            } 
+            }
             if ($_SESSION['rol'] == '3') {
                 header('Location: PanelGestionHumana.php'); // Redirigir a la página de gestion humana
             }
@@ -66,7 +66,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header('Location: login.php');
         exit;
     }
-    
 }
-
-?>
