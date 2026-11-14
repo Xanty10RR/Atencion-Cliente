@@ -126,6 +126,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
         }
 
         .container {
@@ -238,26 +239,33 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .action-buttons {
-            display: flex;
+            display: grid;
+            grid-template-columns: minmax(240px, 1fr) minmax(160px, 0.7fr);
             gap: 15px;
-            justify-content: center;
-            align-items: flex-start;
-            flex-wrap: wrap;
+            align-items: start;
         }
 
-        .action-buttons form {
-            flex: 1;
-            min-width: 240px;
+        .action-buttons .update-form {
+            min-width: 0;
             margin: 0;
         }
 
-        .action-buttons form:last-child button {
-            background-color: #ef4444;
-            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
-            margin-top: 4px;
+        .action-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .action-buttons form:last-child button:hover {
+        .action-controls form {
+            margin: 0;
+        }
+
+        .action-controls .delete-button {
+            background-color: #ef4444;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+        }
+
+        .action-controls .delete-button:hover {
             background-color: #dc2626;
         }
 
@@ -379,7 +387,8 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= htmlspecialchars($user['nombre_completo']) ?></td>
                         <td><?= $roles[$user['rol']] ?? 'Desconocido' ?></td>
                         <td class="action-buttons">
-                            <form action="" method="POST" onsubmit="return verificarFormulario(<?= $user['id'] ?>)">
+                            <form id="update-form-<?= $user['id'] ?>" class="update-form" action="" method="POST"
+                                onsubmit="return verificarFormulario(<?= $user['id'] ?>)">
                                 <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
                                 <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
                                 <input type="password" name="password" id="password_<?= $user['id'] ?>" placeholder="Nueva Contraseña" required
@@ -398,13 +407,16 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <option value="<?= $key ?>" <?= $user['rol'] == $key ? 'selected' : '' ?>><?= $roleName ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <button type="submit" name="update">Actualizar</button>
                             </form>
 
-                            <form action="" method="POST">
-                                <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
-                                <button type="submit" name="delete" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar</button>
-                            </form>
+                            <div class="action-controls">
+                                <button type="submit" form="update-form-<?= $user['id'] ?>" name="update">Actualizar</button>
+                                <form action="" method="POST">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
+                                    <button class="delete-button" type="submit" name="delete"
+                                        onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
