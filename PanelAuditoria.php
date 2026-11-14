@@ -31,6 +31,7 @@ try {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="img/icon.jpg">
@@ -42,26 +43,33 @@ try {
             color: #000080;
             padding: 20px;
         }
+
         h2 {
             text-align: center;
             color: #000080;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 30px;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid #000080;
             padding: 10px;
             text-align: center;
         }
+
         th {
             background-color: #cce5ff;
         }
+
         tr:nth-child(even) {
             background-color: #e6f2ff;
         }
+
         a {
             display: block;
             margin-top: 20px;
@@ -69,138 +77,142 @@ try {
             text-align: center;
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
 
-<h2>Historial de Auditoría</h2>
-<?php if ($_SESSION['rol'] == '1'): ?>
-    <a href="PanelSuperadministrador.php">← Volver</a>
-<?php endif; ?>
-<a href="logout.php">Cerrar sesión</a>
-<table>
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Acción</th>
-            <th>Usuario Afectado</th>
-            <th>Cambio hecho por</th>
-            <th>Informacion</th>
-            <th>Antes</th>
-            <th>Después</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($auditorias as $aud): ?>
-        <tr>
-            <td><?= $aud['fecha'] ?></td>
-            <td>
-    <?php
-    $accion = strtolower($aud['accion']); // en minúscula para evitar errores de comparación
-    $colores = [
-        'crear' => 'green',
-        'actualizar' => 'blue',
-        'eliminar' => 'red'
-    ];
-    $color = $colores[$accion] ?? 'black'; // color por defecto si no coincide
-    echo "<span style='color: $color; font-weight: bold; text-transform: capitalize;'>$accion</span>";
-    ?>
-</td>
+    <h2>Historial de Auditoría</h2>
+    <?php if ($_SESSION['rol'] == '1'): ?>
+        <a href="PanelSuperadministrador.php">← Volver</a>
+    <?php endif; ?>
+    <a href="logout.php">Cerrar sesión</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Acción</th>
+                <th>Usuario Afectado</th>
+                <th>Cambio hecho por</th>
+                <th>Informacion</th>
+                <th>Antes</th>
+                <th>Después</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($auditorias as $aud): ?>
+                <tr>
+                    <td><?= $aud['fecha'] ?></td>
+                    <td>
+                        <?php
+                        $accion = strtolower($aud['accion']); // en minúscula para evitar errores de comparación
+                        $colores = [
+                            'crear' => 'green',
+                            'actualizar' => 'blue',
+                            'eliminar' => 'red'
+                        ];
+                        $color = $colores[$accion] ?? 'black'; // color por defecto si no coincide
+                        echo "<span style='color: $color; font-weight: bold; text-transform: capitalize;'>$accion</span>";
+                        ?>
+                    </td>
 
-            <td><?= $aud['username_afectado'] ?></td>
-            <td><?= $aud['realizado_por'] ?></td>
-            <td><?php
-    $anteriores = json_decode($aud['datos_anteriores'], true);
-    $mostrarCampos = ['documento', 'nombre_completo'];
-    $nombresRoles = [
-        1 => 'SuperAdmin',
-        2 => 'Administrador',
-        3 => 'Gestión Humana',
-        4 => 'Invitado',
-        5 => 'Auditoría'
-    ];
+                    <td><?= $aud['username_afectado'] ?></td>
+                    <td><?= $aud['realizado_por'] ?></td>
+                    <td><?php
+                        $anteriores = json_decode($aud['datos_anteriores'], true);
+                        $mostrarCampos = ['documento', 'nombre_completo'];
+                        $nombresRoles = [
+                            1 => 'SuperAdmin',
+                            2 => 'Administrador',
+                            3 => 'Gestión Humana',
+                            4 => 'Invitado',
+                            5 => 'Auditoría'
+                        ];
 
-    if (is_array($anteriores)) {
-        echo "<ul>";
-        foreach ($anteriores as $key => $value) {
-            if (in_array($key, $mostrarCampos)) {
-                if ($key == 'rol') {
-                    $value = $nombresRoles[$value] ?? $value;
-                }
-                echo "<li><strong>" . htmlspecialchars($key) . ":</strong> " . htmlspecialchars($value) . "</li>";
-            }
-        }
-        echo "</ul>";
-    } else {
-        echo "Sin datos";
-    }
-    ?>
-</td></td>
-            <td>
-    <?php
-    $anteriores = json_decode($aud['datos_anteriores'], true);
-    $mostrarCampos = ['rol', 'username'];
-    $nombresRoles = [
-        1 => 'SuperAdmin',
-        2 => 'Administrador',
-        3 => 'Gestión Humana',
-        4 => 'Invitado',
-        5 => 'Auditoría'
-    ];
+                        if (is_array($anteriores)) {
+                            echo "<ul>";
+                            foreach ($anteriores as $key => $value) {
+                                if (in_array($key, $mostrarCampos)) {
+                                    if ($key == 'rol') {
+                                        $value = $nombresRoles[$value] ?? $value;
+                                    }
+                                    echo "<li><strong>" . htmlspecialchars($key) . ":</strong> " . htmlspecialchars($value) . "</li>";
+                                }
+                            }
+                            echo "</ul>";
+                        } else {
+                            echo "Sin datos";
+                        }
+                        ?>
+                    </td>
+                    </td>
+                    <td>
+                        <?php
+                        $anteriores = json_decode($aud['datos_anteriores'], true);
+                        $mostrarCampos = ['rol', 'username'];
+                        $nombresRoles = [
+                            1 => 'SuperAdmin',
+                            2 => 'Administrador',
+                            3 => 'Gestión Humana',
+                            4 => 'Invitado',
+                            5 => 'Auditoría'
+                        ];
 
-    if (is_array($anteriores)) {
-        echo "<ul>";
-        foreach ($anteriores as $key => $value) {
-            if (in_array($key, $mostrarCampos)) {
-                if ($key == 'rol') {
-                    $value = $nombresRoles[$value] ?? $value;
-                }
-                echo "<li><strong>" . htmlspecialchars($key) . ":</strong> " . htmlspecialchars($value) . "</li>";
-            }
-        }
-        echo "</ul>";
-    } else {
-        echo "Sin datos";
-    }
-    ?>
-</td>
+                        if (is_array($anteriores)) {
+                            echo "<ul>";
+                            foreach ($anteriores as $key => $value) {
+                                if (in_array($key, $mostrarCampos)) {
+                                    if ($key == 'rol') {
+                                        $value = $nombresRoles[$value] ?? $value;
+                                    }
+                                    echo "<li><strong>" . htmlspecialchars($key) . ":</strong> " . htmlspecialchars($value) . "</li>";
+                                }
+                            }
+                            echo "</ul>";
+                        } else {
+                            echo "Sin datos";
+                        }
+                        ?>
+                    </td>
 
-<td>
-    <?php
-    $nuevos = json_decode($aud['datos_nuevos'], true);
-    $mostrarCampos = ['rol', 'username', 'documento', 'nombre_completo'];
-    $nombresRoles = [
-        1 => 'SuperAdmin',
-        2 => 'Administrador',
-        3 => 'Gestión Humana',
-        4 => 'Invitado',
-        5 => 'Auditoría'
-    ];
+                    <td>
+                        <?php
+                        $nuevos = json_decode($aud['datos_nuevos'], true);
+                        $mostrarCampos = ['rol', 'username', 'documento', 'nombre_completo'];
+                        $nombresRoles = [
+                            1 => 'SuperAdmin',
+                            2 => 'Administrador',
+                            3 => 'Gestión Humana',
+                            4 => 'Invitado',
+                            5 => 'Auditoría'
+                        ];
 
-    if (is_array($nuevos)) {
-        echo "<ul>";
-        foreach ($nuevos as $key => $value) {
-            if (in_array($key, $mostrarCampos)) {
-                if ($key == 'rol') {
-                    $value = $nombresRoles[$value] ?? $value;
-                }
-                echo "<li><strong>" . htmlspecialchars($key) . ":</strong> " . htmlspecialchars($value) . "</li>";
-            }
-        }
-        echo "</ul>";
-    } else {
-        echo "Sin datos";
-    }
-    ?>
-</td>
+                        if (is_array($nuevos)) {
+                            echo "<ul>";
+                            foreach ($nuevos as $key => $value) {
+                                if (in_array($key, $mostrarCampos)) {
+                                    if ($key == 'rol') {
+                                        $value = $nombresRoles[$value] ?? $value;
+                                    }
+                                    echo "<li><strong>" . htmlspecialchars($key) . ":</strong> " . htmlspecialchars($value) . "</li>";
+                                }
+                            }
+                            echo "</ul>";
+                        } else {
+                            echo "Sin datos";
+                        }
+                        ?>
+                    </td>
 
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 
 </body>
+
 </html>
