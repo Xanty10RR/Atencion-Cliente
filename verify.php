@@ -50,9 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($_SESSION['rol'] == '4') {
                 header('Location: PanelVisitante.php'); // Redirigir a la página del usuario visitante
             }
-            //if ($_SESSION['rol'] == '5') {
-            //    header('Location: PanelAuditoria.php'); // Redirigir a la página de auditoria
-            //}
+            if ($_SESSION['rol'] == '5') {
+                header('Location: PanelAuditoria.php'); // Redirigir a la página de auditoria
+            }
             exit;
         } else {
             // Contraseña incorrecta
