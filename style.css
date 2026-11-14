@@ -434,9 +434,9 @@ textarea:focus {
 
 .autorizacion-container {
     position: relative;
-    width: 100%;
+    width: 86%;
     height: auto;
-    max-width: 95vw;
+    max-width: 93vw;
     margin: 0 auto;
     text-align: left;
 }
@@ -450,7 +450,7 @@ textarea:focus {
 .check-autorizacion {
     position: absolute;
     top: 50%; /* Centra verticalmente */
-    left: 3%; /* Siempre pegado al lado izquierdo */
+    left: 5%; /* Siempre pegado al lado izquierdo */
     transform: translateY(-50%) scale(1.18);
     z-index: 2;
 }
