@@ -133,7 +133,6 @@ try {
             font-size: 14px;
             border: 1px solid #dee2e6;
             padding: 10px 12px;
-            /* Espaciado más cómodo y limpio */
         }
 
         .table.table-bordered tbody td {
