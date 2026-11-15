@@ -164,6 +164,7 @@ try {
             object-fit: contain;
         }
     </style>
+    <link href="fonts.css" rel="stylesheet">
 </head>
 
 <body>
