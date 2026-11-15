@@ -157,6 +157,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios</title>
     <link rel="icon" type="image/svg" href="img/icono.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
             background-color: #f0f8ff;
@@ -225,7 +226,6 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             font-weight: 600;
             font-size: 13px;
             letter-spacing: 0.5px;
-            text-transform: uppercase;
             border-bottom: 2px solid #cbd5e1;
         }
 
@@ -497,8 +497,8 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </table>
 
         <div class="links">
-            <a href='RegistroUsuario.php'>➕ Crear Usuario</a> |
-            <a href='PanelAdministrador.php'>⬅ Volver</a>
+            <a href='RegistroUsuario.php'><i class="bi bi-plus-circle"></i> Crear Usuario</a> |
+            <a href='PanelAdministrador.php'><i class="bi bi-arrow-left"></i> Volver</a>
         </div>
 
         <form method="POST">
