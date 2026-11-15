@@ -198,86 +198,58 @@ try {
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar">
-            <!-- Buscador en el menú lateral -->
+            <!-- Buscador por código -->
             <form method="GET" class="px-2 pb-2">
+                <small class="text-muted d-block mb-3 text-align-end">
+                    <i class="bi bi-info-circle me-1"></i> Búsqueda por CC o código del vendedor
+                </small>
                 <div class="input-group">
                     <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control" name="id_vendedor" placeholder="-" value="<?= htmlspecialchars($codigoCliente) ?>">
+                    <input type="text" class="form-control" name="id_vendedor" placeholder="Buscar..." value="<?= htmlspecialchars($codigoCliente) ?>">
                 </div>
             </form>
-            <small class="text-muted d-block ms-3">
-                <i class="bi bi-search me-1"></i> Búsqueda por código
-            </small>
-            <br>
+
             <div class="accordion" id="menuAccordion">
                 <!-- Ordenar -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" data-bs-toggle="collapse"
-                            data-bs-target="#adminMenu">
-                            <i class="bi bi-gear me-2"></i>Ordenar Por
+                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#adminMenu">
+                            <i class="bi bi-sort-down me-2"></i>Ordenar Por
                         </button>
                     </h2>
                     <div id="adminMenu" class="accordion-collapse collapse <?= isset($_GET['orden']) ? 'show' : '' ?>" data-bs-parent="#menuAccordion">
                         <div class="accordion-body p-0">
                             <ul class="nav flex-column submenu">
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center" href="?orden=asc">
-                                        <i class="bi bi-sort-down me-2 text-success"></i> Ascendente
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center" href="?orden=desc">
-                                        <i class="bi bi-sort-up me-2 text-danger"></i> Descendente
-                                    </a>
-                                </li>
+                                <li class="nav-item"><a class="nav-link" href="?orden=asc"><i class="bi bi-sort-numeric-up me-2 text-success"></i> Ascendente</a></li>
+                                <li class="nav-item"><a class="nav-link" href="?orden=desc"><i class="bi bi-sort-numeric-down me-2 text-danger"></i> Descendente</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Busqueda por Rango -->
+                <!-- Búsqueda por Rango -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#conexionMenu">
-                            <i class="bi bi-plug me-2"></i>Seleccionar por rango
+                            <i class="bi bi-graph-up-arrow me-2"></i>Rango Promedio
                         </button>
                     </h2>
                     <div id="conexionMenu" class="accordion-collapse collapse <?= isset($_GET['rangoPromedio']) ? 'show' : '' ?>" data-bs-parent="#menuAccordion">
                         <div class="accordion-body px-2 py-1">
-
-                            <?php
-                            $rangoPromedio = isset($_GET['rangoPromedio']) ? $_GET['rangoPromedio'] : '';
-                            $rangos = [
-                                '1  -  1.5' => [1, 1.499],
-                                '1.5  -  2' => [1.5, 1.999],
-                                '2  -  2.5' => [2, 2.499],
-                                '2.5  -  3' => [2.5, 2.999],
-                                '3  -  3.5' => [3, 3.499],
-                                '3.5  -  4' => [3.5, 3.999],
-                                '4  -  4.5' => [4, 4.499],
-                                '4.5  -  5' => [4.5, 5],
-                            ];
-                            ?>
-
                             <ul class="nav flex-column">
                                 <?php foreach ($rangos as $key => $value): ?>
                                     <li class="nav-item">
-                                        <a class="nav-link py-1 <?= $rangoPromedio === $key ? 'fw-bold text-primary' : '' ?>"
-                                            href="?rangoPromedio=<?= urlencode($key) ?>">
-                                            <i class="bi bi-graph-up me-1"></i> <?= $key ?>
+                                        <a class="nav-link py-1 <?= $rangoPromedio === $key ? 'fw-bold text-primary' : '' ?>" href="?rangoPromedio=<?= urlencode($key) ?>">
+                                            <i class="bi bi-star-fill text-warning me-1" style="font-size: 0.75rem;"></i> <?= $key ?>
                                         </a>
                                     </li>
                                 <?php endforeach; ?>
-
-                                <!-- "Ver todos" al final de la lista -->
-                                <li class="nav-item pt-2 border-top">
-                                    <a class="nav-link py-1 <?= empty($rangoPromedio) ? 'fw-bold text-success' : '' ?>" href="?">
+                                <li class="nav-item pt-2 border-top mt-1">
+                                    <a class="nav-link py-1 <?= empty($rangoPromedio) ? 'fw-bold text-success' : '' ?>" href="PanelSuperadministrador.php">
                                         <i class="bi bi-eye me-1"></i> Ver todos
                                     </a>
                                 </li>
                             </ul>
-
                         </div>
                     </div>
                 </div>
@@ -285,22 +257,22 @@ try {
                 <!-- Usuarios -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" data-bs-toggle="collapse"
-                            data-bs-target="#usuariosMenu">
+                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#usuariosMenu">
                             <i class="bi bi-people me-2"></i>Usuarios
                         </button>
                     </h2>
                     <div id="usuariosMenu" class="accordion-collapse collapse" data-bs-parent="#menuAccordion">
                         <div class="accordion-body p-0">
                             <ul class="nav flex-column submenu">
-                                <li class="nav-item"><a href="GestionUsuarios.php" class="nav-link" href="#">Gestion usuarios</a></li>
+                                <li class="nav-item"><a href="GestionUsuarios.php" class="nav-link">Gestión Usuarios</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
+
             <!-- Descargar Excel -->
-            <div class="d-grid mt-3">
+            <div class="d-grid mt-4">
                 <a href="DescargarEncuestasExcel.php" class="btn btn-success btn-sm">
                     <i class="bi bi-file-earmark-excel-fill me-1"></i> Descargar Excel
                 </a>
