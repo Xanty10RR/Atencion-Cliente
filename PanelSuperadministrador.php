@@ -88,7 +88,7 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f6f8fb;
+            background-color: #f0f8ff;
             font-family: 'Segoe UI', sans-serif;
         }
 
