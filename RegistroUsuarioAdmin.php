@@ -202,6 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
     </style>
+    <link href="fonts.css" rel="stylesheet">
 </head>
 
 <body>
