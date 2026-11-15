@@ -55,13 +55,30 @@ if (isset($_GET['expired']) && $_GET['expired'] == 1) {
         }
 
         .btn-primary {
-            background-color: #003366;
-            border-color: #003366;
+            background-color: #003D7A;
+            border-color: #003D7A;
+            --bs-btn-active-bg: #003D7A;
+            --bs-btn-active-border-color: #003D7A;
+            --bs-btn-active-shadow: none;
+            --bs-btn-focus-shadow-rgb: 0, 51, 102;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-primary:hover {
-            background-color: #24507B;
-            border-color: #24507B;
+            background-color: #002B57;
+            border-color: #002B57;
+        }
+
+        .btn-primary:active,
+        .btn-primary.active {
+            background-color: #003D7A !important;
+            border-color: #003D7A !important;
+            box-shadow: none !important;
+        }
+
+        .btn-primary:focus,
+        .btn-primary:focus-visible {
+            box-shadow: none !important;
         }
 
         .error {
