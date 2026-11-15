@@ -214,6 +214,7 @@ try {
             font-size: 13px;
         }
     </style>
+    <link href="fonts.css" rel="stylesheet">
 </head>
 
 <body>
