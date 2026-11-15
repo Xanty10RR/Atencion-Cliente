@@ -275,6 +275,7 @@ if (isset($_POST['delete'])) {
             }
         }
     </style>
+    <link href="fonts.css" rel="stylesheet">
 </head>
 
 <body>
