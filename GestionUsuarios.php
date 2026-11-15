@@ -418,6 +418,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         }
     </style>
+    <link href="fonts.css" rel="stylesheet">
 </head>
 
 <body>
