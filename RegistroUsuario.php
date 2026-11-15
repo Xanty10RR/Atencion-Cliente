@@ -148,13 +148,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         input[type="text"],
         input[type="password"],
         select {
-            width: 88%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #000080;
+            width: 100%;
+            padding: 12px 14px;
+            margin-top: 4px;
+            margin-bottom: 12px;
+            border: 1px solid #cbd5e1;
             border-radius: 8px;
             font-size: 14px;
-            transition: border-color 0.3s ease;
+            background-color: #f8fafc;
+            color: #1e293b;
+            transition: all 0.25s ease;
+            box-sizing: border-box;
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+            opacity: 1;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+        }
+
+        select {
+            background-color: #f8fafc;
+            cursor: pointer;
         }
 
         button {
