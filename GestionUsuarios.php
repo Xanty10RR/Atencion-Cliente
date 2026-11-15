@@ -258,16 +258,21 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         input[type="password"],
         select {
             width: 100%;
-            padding: 9px 12px;
+            padding: 12px 14px;
             margin-top: 4px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 13px;
+            border-radius: 8px;
+            font-size: 14px;
             background-color: #f8fafc;
             color: #1e293b;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
             box-sizing: border-box;
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+            opacity: 1;
         }
 
         input[type="text"]:focus,
@@ -276,7 +281,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             outline: none;
             border-color: #3b82f6;
             background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
         }
 
         select {
