@@ -226,6 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border: 1px solid #f5c6cb;
         }
     </style>
+    <link href="fonts.css" rel="stylesheet">
 </head>
 
 <body>
