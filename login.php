@@ -98,6 +98,7 @@ if (isset($_GET['expired']) && $_GET['expired'] == 1) {
             }
         }
     </style>
+    <link href="fonts.css" rel="stylesheet">
 </head>
 
 <body>
