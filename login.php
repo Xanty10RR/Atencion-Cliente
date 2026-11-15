@@ -21,7 +21,7 @@ if (isset($_GET['expired']) && $_GET['expired'] == 1) {
 
     <style>
         body {
-            background: linear-gradient(to right, #E4F1FF, #e6f0ff);
+            background-color: #f0f8ff;
             font-family: 'Segoe UI', sans-serif;
             height: 100vh;
             display: flex;
