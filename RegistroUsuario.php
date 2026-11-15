@@ -107,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Usuario Error al</title>
     <link rel="icon" type="image/png" href="img/icon.jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
             background-color: #f0f8ff;
@@ -116,16 +117,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
+            width: 100%;
             color: #000080;
         }
 
         .form-container {
+            box-sizing: border-box;
             background-color: #ffffff;
             padding: 40px 30px;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 350px;
+            width: 410px;
+            max-width: calc(100vw - 32px);
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
         }
@@ -229,6 +233,66 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+
+        .links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .links a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 0 15px;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .links a:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+
+        .link-separator {
+            color: #2563eb;
+        }
+
+        .refresh-button {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 50%;
+            cursor: pointer;
+            margin: 20px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .refresh-button:hover {
+            background-color: #e2e8f0;
+            transform: rotate(180deg);
+        }
+
+        .refresh-button img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
     </style>
     <link href="fonts.css" rel="stylesheet">
 </head>
@@ -282,9 +346,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit">Registrar</button>
         </form>
 
-        <a href="logout.php">Cerrar sesión</a>
-        <hr>
-        <a href="GestionUsuarios.php">⬅ Volver</a>
+        <div class="links">
+            <a href="GestionUsuarios.php"><i class="bi bi-arrow-left"></i> Volver</a>
+            <span class="link-separator">|</span>
+            <a href="logout.php"><i class="bi bi-box-arrow-left"></i> Cerrar Sesión</a>
+        </div>
+        <button type="button" class="refresh-button" onclick="location.reload();" aria-label="Refrescar página">
+            <img src="img/refresh.gif" alt="">
+        </button>
     </div>
 
     <script>
