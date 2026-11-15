@@ -82,6 +82,7 @@ try {
             text-decoration: underline;
         }
     </style>
+    <link href="fonts.css" rel="stylesheet">
 </head>
 
 <body>
