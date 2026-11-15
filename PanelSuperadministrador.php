@@ -177,7 +177,7 @@ try {
         <div class="d-flex align-items-center gap-3">
             <span class="fw-semibold"><i class="bi bi-person-circle me-1"></i> <?= htmlspecialchars($_SESSION['username'] ?? 'Admin'); ?></span>
             <a href="logout.php" class="btn btn-danger btn-sm">
-                <i class="bi bi-box-arrow-right me-1"></i>Cerrar sesión
+                <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión
             </a>
         </div>
     </nav>
@@ -189,11 +189,11 @@ try {
             <!-- Buscador por código -->
             <form method="GET" class="px-2 pb-2">
                 <small class="text-muted d-block mb-3 text-align-end">
-                    <i class="bi bi-info-circle me-1"></i> Búsqueda por código
+                    <i class="bi bi-info-circle me-1"></i> Búsqueda por CC o código del vendedor
                 </small>
                 <div class="input-group">
                     <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control" name="id_vendedor" placeholder="Código..." value="<?= htmlspecialchars($codigoCliente) ?>">
+                    <input type="text" class="form-control" name="id_vendedor" placeholder="Buscar..." value="<?= htmlspecialchars($codigoCliente) ?>">
                 </div>
             </form>
 
@@ -228,7 +228,7 @@ try {
                                 <?php foreach ($rangos as $key => $value): ?>
                                     <li class="nav-item">
                                         <a class="nav-link py-1 <?= $rangoPromedio === $key ? 'fw-bold text-primary' : '' ?>" href="?rangoPromedio=<?= urlencode($key) ?>">
-                                            <i class="bi bi-dot"></i> <?= $key ?>
+                                            <i class="bi bi-star-fill text-warning me-1" style="font-size: 0.75rem;"></i> <?= $key ?>
                                         </a>
                                     </li>
                                 <?php endforeach; ?>
@@ -252,7 +252,7 @@ try {
                     <div id="usuariosMenu" class="accordion-collapse collapse" data-bs-parent="#menuAccordion">
                         <div class="accordion-body p-0">
                             <ul class="nav flex-column submenu">
-                                <li class="nav-item"><a href="GestionUsuarios.php" class="nav-link">Gestión usuarios</a></li>
+                                <li class="nav-item"><a href="GestionUsuarios.php" class="nav-link">Gestión Usuarios</a></li>
                             </ul>
                         </div>
                     </div>
