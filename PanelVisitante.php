@@ -199,17 +199,17 @@ try {
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar">
-            <!-- Buscador en el menú lateral -->
+            <!-- Buscador por código -->
             <form method="GET" class="px-2 pb-2">
+                <small class="text-muted d-block mb-3 text-align-end">
+                    <i class="bi bi-info-circle me-1"></i> Búsqueda por CC o código del vendedor
+                </small>
                 <div class="input-group">
                     <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control" name="id_vendedor" placeholder="-" value="<?= htmlspecialchars($codigoCliente) ?>">
+                    <input type="text" class="form-control" name="id_vendedor" placeholder="Buscar..." value="<?= htmlspecialchars($codigoCliente) ?>">
                 </div>
             </form>
-            <small class="text-muted d-block ms-3">
-                <i class="bi bi-search me-1"></i> Búsqueda por código
-            </small>
-            <br>
+
             <div class="accordion" id="menuAccordion">
                 <!-- Ordenar -->
                 <div class="accordion-item">
