@@ -372,7 +372,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="links">
             <a href="GestionUsuarios.php"><i class="bi bi-arrow-left"></i> Volver</a>
             <span class="link-separator">|</span>
-            <a href="logout.php"><i class="bi bi-box-arrow-left"></i> Cerrar Sesión</a>
+            <a href="logout.php"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
         </div>
         <button type="button" class="refresh-button" onclick="location.reload();" aria-label="Refrescar página">
             <img src="img/refresh.gif" alt="">
