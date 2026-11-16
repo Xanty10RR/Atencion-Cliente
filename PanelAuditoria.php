@@ -37,6 +37,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Auditoría</title>
     <link rel="icon" type="image/svg" href="img/icono.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
@@ -44,8 +45,13 @@ try {
             color: #000080;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             min-height: 100vh;
+        }
+
+        .logo img {
+            height: 50px;
+            object-fit: contain;
         }
 
         .container-auditoria {
@@ -173,15 +179,28 @@ try {
 </head>
 
 <body>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-light bg-white shadow-sm px-4" style="height: 70px;">
+        <div class="d-flex align-items-center logo">
+            <img src="img/icon-web.webp" alt="Logo Empresa">
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <span class="fw-semibold"><i class="bi bi-person-circle me-1"></i> <?= htmlspecialchars($_SESSION['username'] ?? 'Admin'); ?></span>
+            <a href="logout.php" class="btn btn-danger btn-sm">
+                <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión
+            </a>
+        </div>
+    </nav>
+
     <div class="container-auditoria">
         <h2>Historial de Auditoría</h2>
 
-        <div class="nav-links">
-            <?php if ($_SESSION['rol'] == '1'): ?>
-                <a href="PanelSuperadministrador.php"><i class="bi bi-arrow-left me-1"></i> Volver</a> |
-            <?php endif; ?>
-            <a href="logout.php"><i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión</a>
-        </div>
+        <?php if ($_SESSION['rol'] == '1'): ?>
+            <div class="nav-links">
+                <a href="PanelSuperadministrador.php"><i class="bi bi-arrow-left me-1"></i> Volver</a>
+            </div>
+        <?php endif; ?>
 
         <div class="table-responsive">
             <table>
