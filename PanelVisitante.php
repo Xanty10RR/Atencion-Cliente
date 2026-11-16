@@ -183,19 +183,18 @@ try {
 <body>
 
     <!-- Header -->
-    <nav class="navbar navbar-light bg-white shadow-sm px-4">
-        <div class="d-flex align-items-center gap-3">
-            <div class="logo">
-                <img src="img/logo1.jpg" alt="Logo">
-            </div>
+    <nav class="navbar navbar-light bg-white shadow-sm px-4" style="height: 70px;">
+        <div class="d-flex align-items-center logo">
+            <img src="img/icon-web.webp" alt="Logo Empresa">
         </div>
         <div class="d-flex align-items-center gap-3">
-            <span class="fw-semibold"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
+            <span class="fw-semibold"><i class="bi bi-person-circle me-1"></i> <?= htmlspecialchars($_SESSION['username'] ?? 'Admin'); ?></span>
             <a href="logout.php" class="btn btn-danger btn-sm">
-                <i></i>Cerrar sesión
+                <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión
             </a>
         </div>
     </nav>
+
     <!-- Main Layout -->
     <div class="d-flex">
         <!-- Sidebar -->
