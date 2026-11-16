@@ -197,6 +197,21 @@ try {
                     </tr>
                 </thead>
                 <tbody>
+                    <?php
+                    $nombresCampos = [
+                        'nombre_completo' => 'Nombre Completo',
+                        'documento' => 'Documento',
+                        'username' => 'Usuario',
+                        'rol' => 'Rol',
+                    ];
+                    $nombresRoles = [
+                        1 => 'SuperAdmin',
+                        2 => 'Administrador',
+                        3 => 'Gestión Humana',
+                        4 => 'Invitado',
+                        5 => 'Auditoría'
+                    ];
+                    ?>
                     <?php foreach ($auditorias as $aud): ?>
                         <tr>
                             <td><?= $aud['fecha'] ?></td>
@@ -219,22 +234,15 @@ try {
                                 <?php
                                 $anteriores = json_decode($aud['datos_anteriores'], true);
                                 $mostrarCampos = ['documento', 'nombre_completo'];
-                                $nombresRoles = [
-                                    1 => 'SuperAdmin',
-                                    2 => 'Administrador',
-                                    3 => 'Gestión Humana',
-                                    4 => 'Invitado',
-                                    5 => 'Auditoría'
-                                ];
 
                                 if (is_array($anteriores)) {
                                     echo "<ul>";
                                     foreach ($anteriores as $key => $value) {
-                                        if (in_array($key, $mostrarCampos)) {
+                                        if (in_array($key, $mostrarCampos, true)) {
                                             if ($key == 'rol') {
                                                 $value = $nombresRoles[$value] ?? $value;
                                             }
-                                            echo "<li><strong>" . htmlspecialchars($key) . ":</strong> " . htmlspecialchars($value) . "</li>";
+                                            echo "<li><strong>" . htmlspecialchars($nombresCampos[$key]) . ":</strong> " . htmlspecialchars($value) . "</li>";
                                         }
                                     }
                                     echo "</ul>";
@@ -251,11 +259,11 @@ try {
                                 if (is_array($anteriores)) {
                                     echo "<ul>";
                                     foreach ($anteriores as $key => $value) {
-                                        if (in_array($key, $mostrarCampos)) {
+                                        if (in_array($key, $mostrarCampos, true)) {
                                             if ($key == 'rol') {
                                                 $value = $nombresRoles[$value] ?? $value;
                                             }
-                                            echo "<li><strong>" . htmlspecialchars($key) . ":</strong> " . htmlspecialchars($value) . "</li>";
+                                            echo "<li><strong>" . htmlspecialchars($nombresCampos[$key]) . ":</strong> " . htmlspecialchars($value) . "</li>";
                                         }
                                     }
                                     echo "</ul>";
@@ -272,11 +280,11 @@ try {
                                 if (is_array($nuevos)) {
                                     echo "<ul>";
                                     foreach ($nuevos as $key => $value) {
-                                        if (in_array($key, $mostrarCampos)) {
+                                        if (in_array($key, $mostrarCampos, true)) {
                                             if ($key == 'rol') {
                                                 $value = $nombresRoles[$value] ?? $value;
                                             }
-                                            echo "<li><strong>" . htmlspecialchars($key) . ":</strong> " . htmlspecialchars($value) . "</li>";
+                                            echo "<li><strong>" . htmlspecialchars($nombresCampos[$key]) . ":</strong> " . htmlspecialchars($value) . "</li>";
                                         }
                                     }
                                     echo "</ul>";
