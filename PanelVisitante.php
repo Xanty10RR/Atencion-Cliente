@@ -246,7 +246,7 @@ try {
                                     </li>
                                 <?php endforeach; ?>
                                 <li class="nav-item pt-2 border-top mt-1">
-                                    <a class="nav-link py-1 <?= empty($rangoPromedio) ? 'fw-bold text-success' : '' ?>" href="PanelGestionHumana.php">
+                                    <a class="nav-link py-1 <?= empty($rangoPromedio) ? 'fw-bold text-success' : '' ?>" href="PanelVisitante.php">
                                         <i class="bi bi-eye me-1"></i> Ver todos
                                     </a>
                                 </li>
