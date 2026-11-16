@@ -273,16 +273,16 @@ try {
                     <table class="table table-bordered table-hover mb-0">
                         <thead>
                             <tr>
-                                <th>Código Vendedor</th>
+                                <th>Código del Vendedor</th>
                                 <th>Frecuencia</th>
                                 <th>Atención al Cliente</th>
                                 <th>Interacciones Rápidas</th>
                                 <th>Buen Trato</th>
                                 <th>Superación Expectativas</th>
-                                <th>Promedio</th>
+                                <th>Calificación Promedio</th>
                                 <th>Comentarios</th>
-                                <th>Nombre Cliente</th>
-                                <th>Celular</th>
+                                <th>Nombre del Cliente</th>
+                                <th>Celular del Cliente</th>
                                 <th>Fecha y Hora</th>
                             </tr>
                         </thead>
