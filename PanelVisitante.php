@@ -232,44 +232,25 @@ try {
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#conexionMenu">
-                            <i class="bi bi-plug me-2"></i>Seleccionar por rango
+                            <i class="bi bi-graph-up-arrow me-2"></i>Rango Promedio
                         </button>
                     </h2>
                     <div id="conexionMenu" class="accordion-collapse collapse <?= isset($_GET['rangoPromedio']) ? 'show' : '' ?>" data-bs-parent="#menuAccordion">
                         <div class="accordion-body px-2 py-1">
-
-                            <?php
-                            $rangoPromedio = isset($_GET['rangoPromedio']) ? $_GET['rangoPromedio'] : '';
-                            $rangos = [
-                                '1  -  1.5' => [1, 1.499],
-                                '1.5  -  2' => [1.5, 1.999],
-                                '2  -  2.5' => [2, 2.499],
-                                '2.5  -  3' => [2.5, 2.999],
-                                '3  -  3.5' => [3, 3.499],
-                                '3.5  -  4' => [3.5, 3.999],
-                                '4  -  4.5' => [4, 4.499],
-                                '4.5  -  5' => [4.5, 5],
-                            ];
-                            ?>
-
                             <ul class="nav flex-column">
                                 <?php foreach ($rangos as $key => $value): ?>
                                     <li class="nav-item">
-                                        <a class="nav-link py-1 <?= $rangoPromedio === $key ? 'fw-bold text-primary' : '' ?>"
-                                            href="?rangoPromedio=<?= urlencode($key) ?>">
-                                            <i class="bi bi-graph-up me-1"></i> <?= $key ?>
+                                        <a class="nav-link py-1 <?= $rangoPromedio === $key ? 'fw-bold text-primary' : '' ?>" href="?rangoPromedio=<?= urlencode($key) ?>">
+                                            <i class="bi bi-star-fill text-warning me-1" style="font-size: 0.75rem;"></i> <?= $key ?>
                                         </a>
                                     </li>
                                 <?php endforeach; ?>
-
-                                <!-- "Ver todos" al final de la lista -->
-                                <li class="nav-item pt-2 border-top">
-                                    <a class="nav-link py-1 <?= empty($rangoPromedio) ? 'fw-bold text-success' : '' ?>" href="?">
+                                <li class="nav-item pt-2 border-top mt-1">
+                                    <a class="nav-link py-1 <?= empty($rangoPromedio) ? 'fw-bold text-success' : '' ?>" href="PanelGestionHumana.php">
                                         <i class="bi bi-eye me-1"></i> Ver todos
                                     </a>
                                 </li>
                             </ul>
-
                         </div>
                     </div>
                 </div>
