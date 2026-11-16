@@ -126,8 +126,7 @@ try {
             color: #334155;
             font-weight: 600;
             letter-spacing: 0.5px;
-            text-transform: uppercase;
-            border-bottom: 2px solid #cbd5e1;
+            border-bottom: 1px solid #006EB3;
         }
 
         tr:nth-child(even) {
@@ -186,8 +185,8 @@ try {
                         <th>Fecha</th>
                         <th>Acción</th>
                         <th>Usuario Afectado</th>
-                        <th>Cambio hecho por</th>
-                        <th>Informacion</th>
+                        <th>Cambio Hecho Por</th>
+                        <th>Información</th>
                         <th>Antes</th>
                         <th>Después</th>
                     </tr>
@@ -200,8 +199,8 @@ try {
                                 <?php
                                 $accion = strtolower($aud['accion']);
                                 $colores = [
-                                    'crear' => '#059669',
-                                    'actualizar' => '#2563eb',
+                                    'crear' => '#05BD85',
+                                    'actualizar' => '#1F54C9',
                                     'eliminar' => '#dc2626'
                                 ];
                                 $color = $colores[$accion] ?? '#334155';
