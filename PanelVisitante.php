@@ -214,24 +214,15 @@ try {
                 <!-- Ordenar -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" data-bs-toggle="collapse"
-                            data-bs-target="#adminMenu">
-                            <i class="bi bi-gear me-2"></i>Ordenar Por
+                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#adminMenu">
+                            <i class="bi bi-sort-down me-2"></i>Ordenar Por
                         </button>
                     </h2>
                     <div id="adminMenu" class="accordion-collapse collapse <?= isset($_GET['orden']) ? 'show' : '' ?>" data-bs-parent="#menuAccordion">
                         <div class="accordion-body p-0">
                             <ul class="nav flex-column submenu">
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center" href="?orden=asc">
-                                        <i class="bi bi-sort-down me-2 text-success"></i> Ascendente
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center" href="?orden=desc">
-                                        <i class="bi bi-sort-up me-2 text-danger"></i> Descendente
-                                    </a>
-                                </li>
+                                <li class="nav-item"><a class="nav-link" href="?orden=asc"><i class="bi bi-sort-numeric-up me-2 text-success"></i> Ascendente</a></li>
+                                <li class="nav-item"><a class="nav-link" href="?orden=desc"><i class="bi bi-sort-numeric-down me-2 text-danger"></i> Descendente</a></li>
                             </ul>
                         </div>
                     </div>
