@@ -122,9 +122,14 @@ try {
         }
 
         th {
-            background-color: #f8fafc;
-            color: #334155;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 18px 12px;
+            background-color: #d0e7ff;
+            color: #00264d;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
             letter-spacing: 0.5px;
             border-bottom: 1px solid #006EB3;
         }
