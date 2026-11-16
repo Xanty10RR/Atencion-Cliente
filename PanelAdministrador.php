@@ -136,6 +136,11 @@ try {
             padding-left: 30px;
         }
 
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
         .table thead th {
             font-size: 15px;
             font-weight: bold;
