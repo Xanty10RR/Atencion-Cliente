@@ -34,8 +34,10 @@ try {
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="img/icon.jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Auditoría</title>
+    <link rel="icon" type="image/svg" href="img/icono.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
             background-color: #f0f8ff;
@@ -89,9 +91,9 @@ try {
 
     <h2>Historial de Auditoría</h2>
     <?php if ($_SESSION['rol'] == '1'): ?>
-        <a href="PanelSuperadministrador.php">← Volver</a>
+        <a href="PanelSuperadministrador.php">Volver</a>
     <?php endif; ?>
-    <a href="logout.php">Cerrar sesión</a>
+    <a href="logout.php"><i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión</a>
     <table>
         <thead>
             <tr>
