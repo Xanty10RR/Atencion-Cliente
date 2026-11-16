@@ -86,7 +86,7 @@ try {
 } catch (PDOException $e) {
     die("Error de conexión: " . $e->getMessage());
 }
-//Jt
+
 ?>
 
 <!DOCTYPE html>
@@ -95,19 +95,29 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/icon.jpg">
+    <link rel="icon" type="image/svg" href="img/icono.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <title>Tabla de Clientes</title>
+    <title>Tabla de Calificaciones</title>
     <style>
         body {
             background-color: #f6f8fb;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        h3 {
+            color: #00264d;
+            font-weight: 700;
+            border-bottom: 3px solid #00264d;
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-bottom: 25px;
         }
 
         .sidebar {
             min-width: 250px;
             max-width: 250px;
-            height: 100vh;
+            height: calc(100vh - 70px);
             background-color: #ffffff;
             border-right: 1px solid #dee2e6;
             padding: 20px;
@@ -127,85 +137,44 @@ try {
             padding-left: 30px;
         }
 
-        .table-container {
-            padding: 10px 30px;
-            max-width: 100%;
-            height: 1000px;
-        }
-
-        .table th {
-            background-color: #e0f0ff;
-            color: #003366;
-        }
-
-
         .table thead th {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
-            padding: 14px;
+            padding: 18px 12px;
             background-color: #d0e7ff;
             color: #00264d;
             text-align: center;
-            border-bottom: 2px solid #0059b3;
+            border-bottom: 1px solid #0059b3;
             vertical-align: middle;
+            white-space: nowrap;
         }
-
 
         .table td {
             text-align: center;
             vertical-align: middle;
-            white-space: nowrap;
             font-size: 14px;
             border: 1px solid #dee2e6;
+            padding: 10px 12px;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo img {
-            height: 60px;
-            width: 250px;
-        }
-
-        td {
-            word-wrap: break-word;
-            word-break: break-word;
-            white-space: normal;
-            max-width: 180px;
-        }
-
-        .comentarios {
-            max-width: 180px;
-            word-wrap: break-word;
-            /* Permite cortar palabras largas */
-            word-break: break-word;
-            white-space: normal;
-            /* Permite saltos de línea */
-        }
-
-        .table td,
-        .table th {
-            padding: 12px;
-            font-size: 15px;
-        }
-
-        .table td:not(.comentarios) {
-            white-space: nowrap;
-            /* Aplica nowrap solo a las demás celdas */
+        .table.table-bordered tbody td {
+            padding: 4px 8px;
+            line-height: 1.25;
         }
 
         td.comentarios {
             width: 230px;
             max-width: 230px;
             white-space: normal !important;
-            word-wrap: break-word;
-            word-break: break-word;
             overflow-wrap: break-word;
             text-align: left;
             vertical-align: top;
             font-size: 13px;
+        }
+
+        .logo img {
+            height: 50px;
+            object-fit: contain;
         }
     </style>
     <link href="fonts.css" rel="stylesheet">
