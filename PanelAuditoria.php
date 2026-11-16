@@ -67,7 +67,6 @@ try {
         .page-heading {
             max-width: 1250px;
             margin: 30px auto 0;
-            padding: 0 35px;
         }
 
         h3 {
