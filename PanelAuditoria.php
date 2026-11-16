@@ -56,7 +56,7 @@ try {
 
         .container-auditoria {
             max-width: 1250px;
-            margin: 30px auto;
+            margin: 15px auto 30px;
             background: #ffffff;
             padding: 35px;
             border-radius: 16px;
@@ -64,15 +64,19 @@ try {
             animation: fadeIn 0.4s ease-in-out;
         }
 
-        h2 {
-            margin-top: 0;
-            margin-bottom: 25px;
-            font-size: 24px;
-            font-weight: 700;
+        .page-heading {
+            max-width: 1250px;
+            margin: 30px auto 0;
+            padding: 0 35px;
+        }
+
+        h3 {
             color: #00264d;
+            font-weight: 700;
             border-bottom: 3px solid #00264d;
-            padding-bottom: 12px;
+            padding-bottom: 10px;
             display: inline-block;
+            margin-bottom: 25px;
         }
 
         .nav-links {
@@ -193,9 +197,11 @@ try {
         </div>
     </nav>
 
-    <div class="container-auditoria">
-        <h2>Historial de Auditoría</h2>
+    <div class="page-heading">
+        <h3>Historial de Auditoría</h3>
+    </div>
 
+    <div class="container-auditoria">
         <?php if ($_SESSION['rol'] == '1'): ?>
             <div class="nav-links">
                 <a href="PanelSuperadministrador.php"><i class="bi bi-arrow-left me-1"></i> Volver</a>
