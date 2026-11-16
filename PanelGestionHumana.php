@@ -263,52 +263,56 @@ try {
                 </a>
             </div>
         </div>
-    </div>
 
-    <!-- Main Content -->
-    <div class="table-container">
-        <div class="flex-grow-1 p-2">
-            <h3 class="mb-4">Resumen de Calificaciones</h3>
-            <table class="table table-bordered table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>Código del Vendedor</th>
-                        <th>Frecuencia</th>
-                        <th>Atención al Cliente</th>
-                        <th>Interacciones Rápidas</th>
-                        <th>Buen Trato</th>
-                        <th>Superación de Expectativas</th>
-                        <th>Promedio</th>
-                        <th>Comentarios</th>
-                        <th>Nombre del Cliente</th>
-                        <th>Celular</th>
-                        <th>Fecha y Hora</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($clientes as $cliente): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($cliente['id_vendedor']) ?></td>
-                            <td><?= htmlspecialchars($cliente['frecuencia']) ?></td>
-                            <td><?= htmlspecialchars($cliente['pregunta_1']) ?></td>
-                            <td><?= htmlspecialchars($cliente['pregunta_2']) ?></td>
-                            <td><?= htmlspecialchars($cliente['pregunta_3']) ?></td>
-                            <td><?= htmlspecialchars($cliente['pregunta_4']) ?></td>
-                            <td><?= number_format($cliente['promedio'], 2) ?></td>
-                            <td class="comentarios"><?= htmlspecialchars($cliente['comentario']) ?></td>
-                            <td><?= htmlspecialchars($cliente['nombre_cliente']) ?></td>
-                            <td><?= htmlspecialchars($cliente['celular_cliente']) ?></td>
-                            <td><?= date('Y-m-d H:i', strtotime($cliente['fecha_votacion'])) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+        <!-- Main Content -->
+        <div class="flex-grow-1 p-4" style="overflow-x: auto; height: calc(100vh - 70px);">
+            <h3>Resumen de Calificaciones</h3>
+
+            <?php if (empty($clientes)): ?>
+                <div class="alert alert-warning text-center">No se encontraron registros con los filtros seleccionados.</div>
+            <?php else: ?>
+                <div class="table-responsive bg-white rounded shadow-sm p-3">
+                    <table class="table table-bordered table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Código Vendedor</th>
+                                <th>Frecuencia</th>
+                                <th>Atención al Cliente</th>
+                                <th>Interacciones Rápidas</th>
+                                <th>Buen Trato</th>
+                                <th>Superación Expectativas</th>
+                                <th>Promedio</th>
+                                <th>Comentarios</th>
+                                <th>Nombre Cliente</th>
+                                <th>Celular</th>
+                                <th>Fecha y Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($clientes as $cliente): ?>
+                                <tr>
+                                    <td class="fw-bold"><?= htmlspecialchars($cliente['id_vendedor']) ?></td>
+                                    <td><span class="badge bg-secondary"><?= htmlspecialchars($cliente['frecuencia']) ?></span></td>
+                                    <td><?= htmlspecialchars($cliente['pregunta_1']) ?></td>
+                                    <td><?= htmlspecialchars($cliente['pregunta_2']) ?></td>
+                                    <td><?= htmlspecialchars($cliente['pregunta_3']) ?></td>
+                                    <td><?= htmlspecialchars($cliente['pregunta_4']) ?></td>
+                                    <td class="fw-bold text-success"><?= number_format($cliente['promedio'], 2) ?></td>
+                                    <td class="comentarios"><?= htmlspecialchars($cliente['comentario']) ?></td>
+                                    <td><?= htmlspecialchars($cliente['nombre_cliente']) ?></td>
+                                    <td><?= htmlspecialchars($cliente['celular_cliente']) ?></td>
+                                    <td><?= date('Y-m-d H:i', strtotime($cliente['fecha_votacion'])) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
-    </div>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
