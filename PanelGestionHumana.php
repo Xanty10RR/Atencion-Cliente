@@ -228,7 +228,7 @@ try {
                     </div>
                 </div>
 
-                <!-- Busqueda por Rango -->
+                <!-- Búsqueda por Rango -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#conexionMenu">
@@ -237,21 +237,6 @@ try {
                     </h2>
                     <div id="conexionMenu" class="accordion-collapse collapse <?= isset($_GET['rangoPromedio']) ? 'show' : '' ?>" data-bs-parent="#menuAccordion">
                         <div class="accordion-body px-2 py-1">
-
-                            <?php
-                            $rangoPromedio = isset($_GET['rangoPromedio']) ? $_GET['rangoPromedio'] : '';
-                            $rangos = [
-                                '1  -  1.5' => [1, 1.499],
-                                '1.5  -  2' => [1.5, 1.999],
-                                '2  -  2.5' => [2, 2.499],
-                                '2.5  -  3' => [2.5, 2.999],
-                                '3  -  3.5' => [3, 3.499],
-                                '3.5  -  4' => [3.5, 3.999],
-                                '4  -  4.5' => [4, 4.499],
-                                '4.5  -  5' => [4.5, 5],
-                            ];
-                            ?>
-
                             <ul class="nav flex-column">
                                 <?php foreach ($rangos as $key => $value): ?>
                                     <li class="nav-item">
@@ -261,7 +246,7 @@ try {
                                     </li>
                                 <?php endforeach; ?>
                                 <li class="nav-item pt-2 border-top mt-1">
-                                    <a class="nav-link py-1 <?= empty($rangoPromedio) ? 'fw-bold text-success' : '' ?>" href="PanelSuperadministrador.php">
+                                    <a class="nav-link py-1 <?= empty($rangoPromedio) ? 'fw-bold text-success' : '' ?>" href="PanelGestionHumana.php">
                                         <i class="bi bi-eye me-1"></i> Ver todos
                                     </a>
                                 </li>
@@ -272,53 +257,54 @@ try {
             </div>
 
             <!-- Descargar Excel -->
-            <div class="d-grid mt-3">
+            <div class="d-grid mt-4">
                 <a href="DescargarEncuestasExcel.php" class="btn btn-success btn-sm">
                     <i class="bi bi-file-earmark-excel-fill me-1"></i> Descargar Excel
                 </a>
             </div>
         </div>
+    </div>
 
-        <!-- Main Content -->
-        <div class="table-container">
-            <div class="flex-grow-1 p-2">
-                <h3 class="mb-4">Resumen de Calificaciones</h3>
-                <table class="table table-bordered table-hover">
-                    <thead class="table-light">
+    <!-- Main Content -->
+    <div class="table-container">
+        <div class="flex-grow-1 p-2">
+            <h3 class="mb-4">Resumen de Calificaciones</h3>
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Código del Vendedor</th>
+                        <th>Frecuencia</th>
+                        <th>Atención al Cliente</th>
+                        <th>Interacciones Rápidas</th>
+                        <th>Buen Trato</th>
+                        <th>Superación de Expectativas</th>
+                        <th>Promedio</th>
+                        <th>Comentarios</th>
+                        <th>Nombre del Cliente</th>
+                        <th>Celular</th>
+                        <th>Fecha y Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($clientes as $cliente): ?>
                         <tr>
-                            <th>Código del Vendedor</th>
-                            <th>Frecuencia</th>
-                            <th>Atención al Cliente</th>
-                            <th>Interacciones Rápidas</th>
-                            <th>Buen Trato</th>
-                            <th>Superación de Expectativas</th>
-                            <th>Promedio</th>
-                            <th>Comentarios</th>
-                            <th>Nombre del Cliente</th>
-                            <th>Celular</th>
-                            <th>Fecha y Hora</th>
+                            <td><?= htmlspecialchars($cliente['id_vendedor']) ?></td>
+                            <td><?= htmlspecialchars($cliente['frecuencia']) ?></td>
+                            <td><?= htmlspecialchars($cliente['pregunta_1']) ?></td>
+                            <td><?= htmlspecialchars($cliente['pregunta_2']) ?></td>
+                            <td><?= htmlspecialchars($cliente['pregunta_3']) ?></td>
+                            <td><?= htmlspecialchars($cliente['pregunta_4']) ?></td>
+                            <td><?= number_format($cliente['promedio'], 2) ?></td>
+                            <td class="comentarios"><?= htmlspecialchars($cliente['comentario']) ?></td>
+                            <td><?= htmlspecialchars($cliente['nombre_cliente']) ?></td>
+                            <td><?= htmlspecialchars($cliente['celular_cliente']) ?></td>
+                            <td><?= date('Y-m-d H:i', strtotime($cliente['fecha_votacion'])) ?></td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($clientes as $cliente): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($cliente['id_vendedor']) ?></td>
-                                <td><?= htmlspecialchars($cliente['frecuencia']) ?></td>
-                                <td><?= htmlspecialchars($cliente['pregunta_1']) ?></td>
-                                <td><?= htmlspecialchars($cliente['pregunta_2']) ?></td>
-                                <td><?= htmlspecialchars($cliente['pregunta_3']) ?></td>
-                                <td><?= htmlspecialchars($cliente['pregunta_4']) ?></td>
-                                <td><?= number_format($cliente['promedio'], 2) ?></td>
-                                <td class="comentarios"><?= htmlspecialchars($cliente['comentario']) ?></td>
-                                <td><?= htmlspecialchars($cliente['nombre_cliente']) ?></td>
-                                <td><?= htmlspecialchars($cliente['celular_cliente']) ?></td>
-                                <td><?= date('Y-m-d H:i', strtotime($cliente['fecha_votacion'])) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
+    </div>
     </div>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
