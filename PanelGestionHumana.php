@@ -95,19 +95,29 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/icon.jpg">
+    <link rel="icon" type="image/svg" href="img/icono.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <title>Tabla de Clientes</title>
     <style>
         body {
             background-color: #f6f8fb;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        h3 {
+            color: #00264d;
+            font-weight: 700;
+            border-bottom: 3px solid #00264d;
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-bottom: 25px;
         }
 
         .sidebar {
             min-width: 250px;
             max-width: 250px;
-            height: 100vh;
+            height: calc(100vh - 70px);
             background-color: #ffffff;
             border-right: 1px solid #dee2e6;
             padding: 20px;
@@ -127,83 +137,44 @@ try {
             padding-left: 30px;
         }
 
-        .table-container {
-            padding: 10px 30px;
-            max-width: 100%;
-            height: 1000px;
-        }
-
-        .table th {
-            background-color: #e0f0ff;
-            color: #003366;
-        }
-
-
         .table thead th {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
-            padding: 14px;
+            padding: 18px 12px;
             background-color: #d0e7ff;
             color: #00264d;
             text-align: center;
-            border-bottom: 2px solid #0059b3;
+            border-bottom: 1px solid #0059b3;
             vertical-align: middle;
+            white-space: nowrap;
         }
-
 
         .table td {
             text-align: center;
             vertical-align: middle;
-            white-space: nowrap;
             font-size: 14px;
             border: 1px solid #dee2e6;
+            padding: 10px 12px;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo img {
-            height: 60px;
-            width: 250px;
-        }
-
-        td {
-            word-wrap: break-word;
-            word-break: break-word;
-            white-space: normal;
-            max-width: 180px;
-        }
-
-        .comentarios {
-            max-width: 180px;
-            word-wrap: break-word;
-            word-break: break-word;
-            white-space: normal;
-        }
-
-        .table td,
-        .table th {
-            padding: 12px;
-            font-size: 15px;
-        }
-
-        .table td:not(.comentarios) {
-            white-space: nowrap;
-            /* Aplica nowrap solo a las demás celdas */
+        .table.table-bordered tbody td {
+            padding: 4px 8px;
+            line-height: 1.25;
         }
 
         td.comentarios {
             width: 230px;
             max-width: 230px;
             white-space: normal !important;
-            word-wrap: break-word;
-            word-break: break-word;
             overflow-wrap: break-word;
             text-align: left;
             vertical-align: top;
             font-size: 13px;
+        }
+
+        .logo img {
+            height: 50px;
+            object-fit: contain;
         }
     </style>
     <link href="fonts.css" rel="stylesheet">
@@ -211,55 +182,47 @@ try {
 
 <body>
 
-    <!-- Header -->
-    <nav class="navbar navbar-light bg-white shadow-sm px-4">
-        <div class="d-flex align-items-center gap-3">
-            <div class="logo">
-                <img src="img/logo1.jpg" alt="Logo">
-            </div>
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-light bg-white shadow-sm px-4" style="height: 70px;">
+        <div class="d-flex align-items-center logo">
+            <img src="img/icon-web.webp" alt="Logo Empresa">
         </div>
         <div class="d-flex align-items-center gap-3">
-            <span class="fw-semibold"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
+            <span class="fw-semibold"><i class="bi bi-person-circle me-1"></i> <?= htmlspecialchars($_SESSION['username'] ?? 'Admin'); ?></span>
             <a href="logout.php" class="btn btn-danger btn-sm">
-                <i></i>Cerrar sesión
+                <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión
             </a>
         </div>
     </nav>
 
+    <!-- Main Layout -->
     <div class="d-flex">
+        <!-- Sidebar -->
         <div class="sidebar">
+            <!-- Buscador por código -->
             <form method="GET" class="px-2 pb-2">
+                <small class="text-muted d-block mb-3 text-align-end">
+                    <i class="bi bi-info-circle me-1"></i> Búsqueda por CC o código del vendedor
+                </small>
                 <div class="input-group">
                     <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control" name="id_vendedor" placeholder="-" value="<?= htmlspecialchars($codigoCliente) ?>">
+                    <input type="text" class="form-control" name="id_vendedor" placeholder="Buscar..." value="<?= htmlspecialchars($codigoCliente) ?>">
                 </div>
             </form>
-            <small class="text-muted d-block ms-3">
-                <i class="bi bi-search me-1"></i> Búsqueda por código
-            </small>
-            <br>
+
             <div class="accordion" id="menuAccordion">
                 <!-- Ordenar -->
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" data-bs-toggle="collapse"
-                            data-bs-target="#adminMenu">
-                            <i class="bi bi-gear me-2"></i>Ordenar Por
+                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#adminMenu">
+                            <i class="bi bi-sort-down me-2"></i>Ordenar Por
                         </button>
                     </h2>
                     <div id="adminMenu" class="accordion-collapse collapse <?= isset($_GET['orden']) ? 'show' : '' ?>" data-bs-parent="#menuAccordion">
                         <div class="accordion-body p-0">
                             <ul class="nav flex-column submenu">
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center" href="?orden=asc">
-                                        <i class="bi bi-sort-down me-2 text-success"></i> Ascendente
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center" href="?orden=desc">
-                                        <i class="bi bi-sort-up me-2 text-danger"></i> Descendente
-                                    </a>
-                                </li>
+                                <li class="nav-item"><a class="nav-link" href="?orden=asc"><i class="bi bi-sort-numeric-up me-2 text-success"></i> Ascendente</a></li>
+                                <li class="nav-item"><a class="nav-link" href="?orden=desc"><i class="bi bi-sort-numeric-down me-2 text-danger"></i> Descendente</a></li>
                             </ul>
                         </div>
                     </div>
@@ -269,7 +232,7 @@ try {
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#conexionMenu">
-                            <i class="bi bi-plug me-2"></i>Seleccionar por rango
+                            <i class="bi bi-graph-up-arrow me-2"></i>Rango Promedio
                         </button>
                     </h2>
                     <div id="conexionMenu" class="accordion-collapse collapse <?= isset($_GET['rangoPromedio']) ? 'show' : '' ?>" data-bs-parent="#menuAccordion">
@@ -292,20 +255,17 @@ try {
                             <ul class="nav flex-column">
                                 <?php foreach ($rangos as $key => $value): ?>
                                     <li class="nav-item">
-                                        <a class="nav-link py-1 <?= $rangoPromedio === $key ? 'fw-bold text-primary' : '' ?>"
-                                            href="?rangoPromedio=<?= urlencode($key) ?>">
-                                            <i class="bi bi-graph-up me-1"></i> <?= $key ?>
+                                        <a class="nav-link py-1 <?= $rangoPromedio === $key ? 'fw-bold text-primary' : '' ?>" href="?rangoPromedio=<?= urlencode($key) ?>">
+                                            <i class="bi bi-star-fill text-warning me-1" style="font-size: 0.75rem;"></i> <?= $key ?>
                                         </a>
                                     </li>
                                 <?php endforeach; ?>
-
-                                <li class="nav-item pt-2 border-top">
-                                    <a class="nav-link py-1 <?= empty($rangoPromedio) ? 'fw-bold text-success' : '' ?>" href="?">
+                                <li class="nav-item pt-2 border-top mt-1">
+                                    <a class="nav-link py-1 <?= empty($rangoPromedio) ? 'fw-bold text-success' : '' ?>" href="PanelSuperadministrador.php">
                                         <i class="bi bi-eye me-1"></i> Ver todos
                                     </a>
                                 </li>
                             </ul>
-
                         </div>
                     </div>
                 </div>
