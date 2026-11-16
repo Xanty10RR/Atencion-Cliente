@@ -224,7 +224,7 @@ try {
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#conexionMenu">
-                            <i class="bi bi-graph-up-arrow me-2"></i>Rango Promedio
+                            <i class="bi bi-graph-up-arrow me-2"></i>Rango Calificaciones
                         </button>
                     </h2>
                     <div id="conexionMenu" class="accordion-collapse collapse <?= isset($_GET['rangoPromedio']) ? 'show' : '' ?>" data-bs-parent="#menuAccordion">
