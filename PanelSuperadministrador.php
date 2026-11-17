@@ -16,12 +16,9 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != '1') {
     exit;
 }
 
-try {
-    // Conexión a la base de datos (Archivo renombrado a config.php)
-    include('config.php');
-    $pdo = new PDO("pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require", DB_USER, DB_PASS);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require_once 'conexion.php';
 
+try {
     // Parámetros de búsqueda y ordenamiento
     $codigoCliente = isset($_GET['id_vendedor']) ? trim($_GET['id_vendedor']) : '';
     $orden = isset($_GET['orden']) && $_GET['orden'] === 'desc' ? 'DESC' : 'ASC';

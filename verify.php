@@ -1,16 +1,6 @@
 <?php
 session_start();
-
-// Conectar a la base de datos
-try {
-    require_once __DIR__ . '/config.php';
-    // Conexión a la base de datos usando los valores del archivo config.php
-    $port = $_ENV['DB_PORT'] ?? '5432';
-    $pdo = new PDO("pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require", DB_USER, DB_PASS);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
-}
+require_once 'conexion.php';
 
 // Verificar si el formulario ha sido enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

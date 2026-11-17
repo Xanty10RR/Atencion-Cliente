@@ -9,18 +9,15 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
 }
 $_SESSION['last_activity'] = time(); // Actualiza el tiempo de última actividad
 
-require_once __DIR__ . '/config.php';
-
 // Solo administradores pueden ver la auditoría
 if ($_SESSION['rol'] != '1' && $_SESSION['rol'] != '5') {
     header('Location: login.php');
     exit;
 }
 
-try {
-    $pdo = new PDO("pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require", DB_USER, DB_PASS);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require_once 'conexion.php';
 
+try {
     $registrosPorPagina = 20;
     $countStmt = $pdo->query("SELECT COUNT(*) FROM auditoria_usuarios");
     $totalRegistros = (int) $countStmt->fetchColumn();
