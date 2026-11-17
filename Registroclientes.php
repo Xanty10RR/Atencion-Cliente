@@ -31,7 +31,7 @@ try {
 
         // Si la inserción fue exitosa, redirigir a login.php
         if ($success) {
-            header("Location: https://supergirosnarino.com.co");
+            header("Location: login.php");
             exit();
         }
     }
