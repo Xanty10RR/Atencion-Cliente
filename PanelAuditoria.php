@@ -69,12 +69,18 @@ try {
 
         .container-auditoria {
             max-width: 1250px;
-            margin: 15px auto 30px;
+            margin: 15px auto 0;
             background: #ffffff;
             padding: 35px;
             border-radius: 16px;
             box-shadow: 0 12px 30px rgba(16, 42, 67, 0.08);
             animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .container-auditoria-pagination {
+            max-width: 1250px;
+            margin: 0 auto 30px;
+            padding: 0 35px;
         }
 
         .page-heading {
@@ -335,6 +341,8 @@ try {
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="container-auditoria-pagination">
         <?php require __DIR__ . '/paginacion-tabla.php'; ?>
     </div>
 </body>
