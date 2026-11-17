@@ -42,7 +42,7 @@ $urlSiguiente = '?' . http_build_query($parametrosSiguiente);
                 id="pagina-tabla"
                 name="pagina"
                 class="form-control form-control-sm"
-                style="width: 80px;"
+                style="width: 60px;"
                 min="1"
                 max="<?= $totalPaginas ?>"
                 value="<?= $paginaActual ?>"
