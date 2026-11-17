@@ -64,13 +64,35 @@ try {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
 
-    $sql .= " ORDER BY promedio $orden";
+    $countSql = "SELECT COUNT(*) FROM EncuestaSatisfaccion";
+    if (!empty($conditions)) {
+        $countSql .= " WHERE " . implode(" AND ", $conditions);
+    }
+
+    $countStmt = $pdo->prepare($countSql);
+    foreach ($params as $key => $value) {
+        $countStmt->bindValue($key, $value);
+    }
+    $countStmt->execute();
+    $totalRegistros = (int) $countStmt->fetchColumn();
+
+    $registrosPorPagina = 20;
+    $totalPaginas = max(1, (int) ceil($totalRegistros / $registrosPorPagina));
+    $paginaSolicitada = filter_input(INPUT_GET, 'pagina', FILTER_VALIDATE_INT);
+    $paginaActual = ($paginaSolicitada !== false && $paginaSolicitada !== null && $paginaSolicitada > 0)
+        ? min($paginaSolicitada, $totalPaginas)
+        : 1;
+    $desplazamiento = ($paginaActual - 1) * $registrosPorPagina;
+
+    $sql .= " ORDER BY promedio $orden LIMIT :limite OFFSET :desplazamiento";
 
     $stmt = $pdo->prepare($sql);
 
     foreach ($params as $key => $value) {
         $stmt->bindValue($key, $value);
     }
+    $stmt->bindValue(':limite', $registrosPorPagina, PDO::PARAM_INT);
+    $stmt->bindValue(':desplazamiento', $desplazamiento, PDO::PARAM_INT);
 
     $stmt->execute();
     $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -312,6 +334,7 @@ try {
                     </table>
                 </div>
             <?php endif; ?>
+            <?php require __DIR__ . '/paginacion-tabla.php'; ?>
         </div>
     </div>
 
