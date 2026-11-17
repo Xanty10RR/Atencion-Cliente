@@ -9,9 +9,8 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 try {
     require_once __DIR__ . '/config.php';
-    $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
+    $pdo = new PDO("pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     $sql = "SELECT id, id_vendedor,
                 (SELECT COUNT(*) FROM EncuestaSatisfaccion c2 WHERE c2.id_vendedor = EncuestaSatisfaccion.id_vendedor) AS frecuencia,
                 pregunta_1, pregunta_2, pregunta_3, pregunta_4, nombre_cliente, celular_cliente,
