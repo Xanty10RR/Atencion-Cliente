@@ -183,6 +183,7 @@ try {
         }
     </style>
     <link href="fonts.css" rel="stylesheet">
+    <link href="sidebar-toggle.css" rel="stylesheet">
 </head>
 
 <body>
@@ -206,9 +207,14 @@ try {
         <div class="sidebar">
             <!-- Buscador por código -->
             <form method="GET" class="px-2 pb-2">
-                <small class="text-muted d-block mb-3 text-align-end">
-                    <i class="bi bi-info-circle me-1"></i> Búsqueda por CC o código del vendedor
-                </small>
+                <div class="sidebar-search-heading">
+                    <small class="text-muted d-block mb-3 text-align-end">
+                        <i class="bi bi-info-circle me-1"></i> Búsqueda por CC o código del vendedor
+                    </small>
+                    <button type="button" class="sidebar-toggle" aria-label="Ocultar menú lateral" aria-expanded="true" title="Ocultar menú lateral">
+                        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                    </button>
+                </div>
                 <div class="input-group">
                     <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
                     <input type="text" class="form-control" name="id_vendedor" placeholder="Buscar..." value="<?= htmlspecialchars($codigoCliente) ?>">
@@ -311,6 +317,7 @@ try {
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="sidebar-toggle.js"></script>
     <script src="capitalizar-tablas.js"></script>
 </body>
 
