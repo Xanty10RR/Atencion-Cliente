@@ -18,9 +18,9 @@ if ($_SESSION['rol'] != '2') {
 try {
     // Conexión a PostgreSQL
     require_once __DIR__ . '/config.php';
-    // Conexión a la base de datos usando los valores del archivo config.php
-    $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
-    // Configurar el manejo de errores
+    // Configuracion de PDO para PostgreSQL usando config.php
+    $pdo = new PDO("pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require", DB_USER, DB_PASS);
+    // Configurar el manejo de errores para que lance excepciones
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // Buscar por código de cliente si se proporciona
     $codigoCliente = isset($_GET['id_vendedor']) ? $_GET['id_vendedor'] : '';
