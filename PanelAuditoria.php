@@ -21,8 +21,21 @@ try {
     $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "SELECT * FROM auditoria_usuarios ORDER BY fecha DESC";
-    $stmt = $pdo->query($sql);
+    $registrosPorPagina = 20;
+    $countStmt = $pdo->query("SELECT COUNT(*) FROM auditoria_usuarios");
+    $totalRegistros = (int) $countStmt->fetchColumn();
+    $totalPaginas = max(1, (int) ceil($totalRegistros / $registrosPorPagina));
+    $paginaSolicitada = filter_input(INPUT_GET, 'pagina', FILTER_VALIDATE_INT);
+    $paginaActual = ($paginaSolicitada !== false && $paginaSolicitada !== null && $paginaSolicitada > 0)
+        ? min($paginaSolicitada, $totalPaginas)
+        : 1;
+    $desplazamiento = ($paginaActual - 1) * $registrosPorPagina;
+
+    $sql = "SELECT * FROM auditoria_usuarios ORDER BY fecha DESC LIMIT :limite OFFSET :desplazamiento";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':limite', $registrosPorPagina, PDO::PARAM_INT);
+    $stmt->bindValue(':desplazamiento', $desplazamiento, PDO::PARAM_INT);
+    $stmt->execute();
     $auditorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Error de conexión: " . $e->getMessage());
@@ -322,6 +335,7 @@ try {
                 </tbody>
             </table>
         </div>
+        <?php require __DIR__ . '/paginacion-tabla.php'; ?>
     </div>
 </body>
 
