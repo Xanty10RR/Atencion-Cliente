@@ -15,6 +15,13 @@ if (!isset($_SESSION['rol']) || !in_array((string) $_SESSION['rol'], ['1', '2'],
 }
 
 require_once __DIR__ . '/config.php';
+/**
+ * @param \PDO $pdo
+ * @param string $accion
+ * @param int|string $usuarioAfectadoId
+ * @param array<string, mixed>|null $datosAntes
+ * @param array<string, mixed>|null $datosDespues
+ */
 function registrarAuditoria($pdo, $accion, $usuarioAfectadoId, $datosAntes, $datosDespues)
 {
     $realizadoPor = $_SESSION['username'] ?? 'desconocido';
