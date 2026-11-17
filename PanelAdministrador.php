@@ -297,7 +297,7 @@ try {
             <?php if (empty($clientes)): ?>
                 <div class="alert alert-warning text-center">No se encontraron registros con los filtros seleccionados.</div>
             <?php else: ?>
-                <div class="table-responsive bg-white rounded shadow-sm p-3">
+                <div class="table-responsive bg-white rounded shadow-sm py-3">
                     <table class="table table-bordered table-hover mb-0">
                         <thead>
                             <tr>
