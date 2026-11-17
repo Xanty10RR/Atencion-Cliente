@@ -19,7 +19,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != '1') {
 try {
     // Conexión a la base de datos (Archivo renombrado a config.php)
     include('config.php');
-    $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
+    $pdo = new PDO("pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Parámetros de búsqueda y ordenamiento
