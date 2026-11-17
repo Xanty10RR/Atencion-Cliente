@@ -143,9 +143,9 @@ try {
         }
 
         .table thead th {
-            font-size: 15px;
-            font-weight: bold;
-            padding: 18px 12px;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 18px 10px;
             background-color: #d0e7ff;
             color: #00264d;
             text-align: center;
@@ -286,7 +286,7 @@ try {
                     <table class="table table-bordered table-hover mb-0">
                         <thead>
                             <tr>
-                                <th>Código del Vendedor</th>
+                                <th>Cód. Vendedor</th>
                                 <th>Frecuencia</th>
                                 <th>Atención al Cliente</th>
                                 <th>Interacciones Rápidas</th>
@@ -294,9 +294,9 @@ try {
                                 <th>Superación Expectativas</th>
                                 <th>Calificación Promedio</th>
                                 <th>Comentarios</th>
-                                <th>Nombre del Cliente</th>
-                                <th>Celular del Cliente</th>
-                                <th>Fecha y Hora</th>
+                                <th>Nombre Cliente</th>
+                                <th>Celular Cliente</th>
+                                <th>Fecha/Hora</th>
                             </tr>
                         </thead>
                         <tbody>
