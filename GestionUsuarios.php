@@ -9,6 +9,13 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
 }
 $_SESSION['last_activity'] = time(); // Actualiza el tiempo de última actividad
 
+/**
+ * @param \PDO $pdo
+ * @param string $accion
+ * @param int|string $usuarioAfectadoId
+ * @param array<string, mixed>|null $datosAntes
+ * @param array<string, mixed>|null $datosDespues
+ */
 function registrarAuditoria($pdo, $accion, $usuarioAfectadoId, $datosAntes, $datosDespues)
 {
     $realizadoPor = $_SESSION['username'] ?? 'desconocido';
