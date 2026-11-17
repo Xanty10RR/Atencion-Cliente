@@ -2,10 +2,8 @@
 require_once 'config.php';
 
 try {
-    // Endpoint fijo de tu proyecto en Neon para solucionar el error de libpq en Windows
-    $endpoint = 'ep-square-mountain-bcbcqw2s';
-    
-    $dsn = "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require;options=endpoint%3D" . $endpoint;
+    $endpoint = preg_replace('/-pooler$/', '', DB_ENDPOINT);
+    $dsn = "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require;options=endpoint=" . $endpoint;
     
     $pdo = new PDO($dsn, DB_USER, DB_PASS, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
