@@ -1,0 +1,65 @@
+.sidebar-collapsible {
+    position: relative;
+}
+
+.sidebar-collapsible > .sidebar {
+    flex: 0 0 250px;
+    width: 250px;
+    min-width: 250px;
+    max-width: 250px;
+    transition: flex-basis 0.25s ease, width 0.25s ease, min-width 0.25s ease, max-width 0.25s ease, padding 0.25s ease;
+}
+
+.sidebar-search-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.sidebar-toggle {
+    display: flex;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: #00264d;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+}
+
+.sidebar-toggle:hover {
+    color: #0059b3;
+    background-color: #f0f8ff;
+}
+
+.sidebar-toggle:focus-visible {
+    outline: 2px solid #0059b3;
+    outline-offset: 2px;
+}
+
+.sidebar-collapsible.sidebar-collapsed > .sidebar {
+    flex-basis: 48px;
+    width: 48px;
+    min-width: 48px;
+    max-width: 48px;
+    padding: 8px 6px;
+    overflow: hidden;
+}
+
+.sidebar-collapsed > .sidebar > :not(:first-child),
+.sidebar-collapsed > .sidebar form > .input-group,
+.sidebar-collapsed > .sidebar .sidebar-search-heading small {
+    display: none !important;
+}
+
+.sidebar-collapsed > .sidebar form {
+    padding: 0 !important;
+}
+
+.sidebar-collapsed > .sidebar .sidebar-search-heading {
+    justify-content: center;
+}
