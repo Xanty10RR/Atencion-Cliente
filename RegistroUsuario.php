@@ -88,11 +88,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         registrarAuditoria($pdo, 'crear', $usuarioId, null, $datosNuevos);
 
-        // ✅ Redirigir enviando una variable indicando ÉXITO
+        // Redirigir enviando una variable indicando ÉXITO
         header("Location: " . $_SERVER['PHP_SELF'] . "?status=success");
         exit;
     } catch (PDOException $e) {
-        // ✅ Redirigir enviando el error codificado en la URL para leerlo abajo
+        // Redirigir enviando el error codificado en la URL para leerlo abajo
         header("Location: " . $_SERVER['PHP_SELF'] . "?status=error&msg=" . urlencode($e->getMessage()));
         exit;
     }
