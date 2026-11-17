@@ -38,7 +38,6 @@ function registrarAuditoria($pdo, $accion, $usuarioAfectadoId, $datosAntes, $dat
     ]);
 }
 
-require_once __DIR__ . '/config.php';
 // Verificar si el usuario tiene el rol adecuado
 if ($_SESSION['rol'] != '1' && $_SESSION['rol'] != '2') {
     // Si el usuario no tiene el rol 1 (Admin) ni el rol 2, redirigire
@@ -46,13 +45,7 @@ if ($_SESSION['rol'] != '1' && $_SESSION['rol'] != '2') {
     exit;
 }
 $esSuperadministrador = $_SESSION['rol'] == '1';
-// Conectar a la base de datos
-try {
-    $pdo = new PDO("pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require", DB_USER, DB_PASS);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
-}
+require_once 'conexion.php';
 
 // Actualizar usuario
 if (isset($_POST['update'])) {
