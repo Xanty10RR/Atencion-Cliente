@@ -2,7 +2,7 @@
     position: relative;
 }
 
-.sidebar-collapsible > .sidebar {
+.sidebar-collapsible>.sidebar {
     flex: 0 0 250px;
     width: 250px;
     min-width: 250px;
@@ -41,7 +41,7 @@
     outline-offset: 2px;
 }
 
-.sidebar-collapsible.sidebar-collapsed > .sidebar {
+.sidebar-collapsible.sidebar-collapsed>.sidebar {
     flex-basis: 48px;
     width: 48px;
     min-width: 48px;
@@ -50,16 +50,16 @@
     overflow: hidden;
 }
 
-.sidebar-collapsed > .sidebar > :not(:first-child),
-.sidebar-collapsed > .sidebar form > .input-group,
-.sidebar-collapsed > .sidebar .sidebar-search-heading small {
+.sidebar-collapsed>.sidebar> :not(:first-child),
+.sidebar-collapsed>.sidebar form>.input-group,
+.sidebar-collapsed>.sidebar .sidebar-search-heading small {
     display: none !important;
 }
 
-.sidebar-collapsed > .sidebar form {
+.sidebar-collapsed>.sidebar form {
     padding: 0 !important;
 }
 
-.sidebar-collapsed > .sidebar .sidebar-search-heading {
+.sidebar-collapsed>.sidebar .sidebar-search-heading {
     justify-content: center;
 }
