@@ -3,8 +3,7 @@ try {
     // Conexión a la base de datos
     require_once __DIR__ . '/config.php';
     // Conexión a la base de datos usando los valores del archivo config.php
-    $pdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
-    // Configurar el manejo de errores
+    $pdo = new PDO("pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // Recibir datos del formulario y asignar valores por defecto si están vacíos
     $nombre = !empty($_POST['nombrecliente']) ? $_POST['nombrecliente'] : 'Anónimo';
