@@ -25,9 +25,9 @@ $urlSiguiente = '?' . http_build_query($parametrosSiguiente);
     </small>
     <div class="d-flex flex-wrap align-items-center gap-2">
         <?php if ($paginaActual > 1): ?>
-            <a class="btn btn-outline-primary btn-sm" href="<?= htmlspecialchars($urlAnterior, ENT_QUOTES, 'UTF-8') ?>">Anterior</a>
+            <a class="btn btn-outline-primary btn-sm" style="padding-top: 0.15rem; padding-bottom: 0.15rem; line-height: 1.25;" href="<?= htmlspecialchars($urlAnterior, ENT_QUOTES, 'UTF-8') ?>">Anterior</a>
         <?php else: ?>
-            <span class="btn btn-outline-secondary btn-sm disabled" aria-disabled="true">Anterior</span>
+            <span class="btn btn-outline-secondary btn-sm disabled" style="padding-top: 0.15rem; padding-bottom: 0.15rem; line-height: 1.25;" aria-disabled="true">Anterior</span>
         <?php endif; ?>
 
         <form method="get" class="d-flex align-items-center gap-2">
@@ -42,19 +42,19 @@ $urlSiguiente = '?' . http_build_query($parametrosSiguiente);
                 id="pagina-tabla"
                 name="pagina"
                 class="form-control form-control-sm"
-                style="width: 60px;"
+                style="width: 60px; height: 26px; min-height: 0; padding-top: 0.15rem; padding-bottom: 0.15rem; line-height: 1.25;"
                 min="1"
                 max="<?= $totalPaginas ?>"
                 value="<?= $paginaActual ?>"
                 required>
             <span class="small text-muted">de <?= $totalPaginas ?></span>
-            <button type="submit" class="btn btn-primary btn-sm">Ir</button>
+            <button type="submit" class="btn btn-primary btn-sm" style="padding-top: 0.15rem; padding-bottom: 0.15rem; line-height: 1.25;">Ir</button>
         </form>
 
         <?php if ($paginaActual < $totalPaginas): ?>
-            <a class="btn btn-outline-primary btn-sm" href="<?= htmlspecialchars($urlSiguiente, ENT_QUOTES, 'UTF-8') ?>">Siguiente</a>
+            <a class="btn btn-outline-primary btn-sm" style="padding-top: 0.15rem; padding-bottom: 0.15rem; line-height: 1.25;" href="<?= htmlspecialchars($urlSiguiente, ENT_QUOTES, 'UTF-8') ?>">Siguiente</a>
         <?php else: ?>
-            <span class="btn btn-outline-secondary btn-sm disabled" aria-disabled="true">Siguiente</span>
+            <span class="btn btn-outline-secondary btn-sm disabled" style="padding-top: 0.15rem; padding-bottom: 0.15rem; line-height: 1.25;" aria-disabled="true">Siguiente</span>
         <?php endif; ?>
     </div>
 </div>
