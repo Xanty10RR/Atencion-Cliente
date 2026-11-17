@@ -5,7 +5,7 @@ session_start();
 try {
     require_once __DIR__ . '/config.php';
     // Conexión a la base de datos usando los valores del archivo config.php
-    $port = $_ENV['DB_PORT'] ?? '3307';
+    $port = $_ENV['DB_PORT'] ?? '5432';
     $pdo = new PDO("pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
